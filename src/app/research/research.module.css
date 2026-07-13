@@ -1,0 +1,430 @@
+.researchPage {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  color: var(--foreground);
+}
+
+.glowSphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+  animation: pulseGlow 8s infinite alternate;
+}
+
+.glowSphere1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+  top: -10%;
+  right: -10%;
+}
+
+.glowSphere2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--primary-dark) 0%, transparent 70%);
+  bottom: -20%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+  100% { transform: scale(1.1) translate(20px, -20px); opacity: 0.5; }
+}
+
+.mainContent {
+  position: relative;
+  z-index: 10;
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
+
+.heroSection {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 80px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 40px rgba(18, 140, 42, 0.1);
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.15;
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: overlay;
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBmq2y2Ud2uxS6RQIN4dajabvO2eribfo5O5rWxAr1xoyZvLNB6-Ow6l0SA0fmVwZH-l1tl9dbOJU5CI-CDqgLJjAqNOLj6pdqvzRE7j9nCFhCZAEDc2VtIea_sQO3Hnpd1FECjwxN7rkyWeolDeTCgBblPvH2-DNVX_Tkoum6X0iwAT9k-zXGCKcg7eg9kVvjAxAwCWL5OBAXXby5vm3G3xQEo63xpjO6cQVAr1i0oo4Y0cDbnzargObN1By1eF11lLaEVfoa4hcY');
+}
+
+.heroCard {
+  position: relative;
+  z-index: 1;
+  padding: 40px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.heroLeft {
+  max-width: 70%;
+}
+
+.heroBadge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(13, 92, 52, 0.5);
+  border: 1px solid rgba(141, 214, 163, 0.3);
+  color: var(--primary-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  box-shadow: 0 0 10px rgba(141, 214, 163, 0.2);
+}
+
+.heroTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.heroDesc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.heroRight {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  border: 4px dashed rgba(233, 195, 73, 0.2);
+  animation: spinCircle 20s linear infinite;
+}
+
+.biotechIcon {
+  font-size: 4.5rem;
+  color: var(--accent);
+  animation: pulseIcon 3s ease-in-out infinite alternate;
+}
+
+@keyframes spinCircle {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseIcon {
+  from { transform: scale(1); opacity: 0.8; }
+  to { transform: scale(1.1); opacity: 1; }
+}
+
+/* Sections */
+.sectionBlock {
+  margin-bottom: 80px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 16px;
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionTitleIcon {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.headerBadge {
+  font-size: 0.85rem;
+  background: rgba(50, 53, 53, 0.5);
+  border: 1px solid var(--border-color);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  color: var(--text-muted);
+}
+
+/* Journals Grid */
+.journalGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+
+.issueCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.issueCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transition: left 0.6s ease;
+}
+
+.issueCard:hover::before {
+  left: 100%;
+}
+
+.issueCard:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(233, 195, 73, 0.15);
+  transform: translateY(-4px);
+}
+
+.issueNumBox {
+  width: 64px;
+  height: 80px;
+  background: rgba(13, 92, 52, 0.25);
+  border: 1px solid rgba(13, 92, 52, 0.4);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+  transition: border-color 0.3s ease;
+}
+
+.issueCard:hover .issueNumBox {
+  border-color: rgba(233, 195, 73, 0.5);
+}
+
+.issueNum {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.issueInfo {
+  text-align: center;
+}
+
+.issueTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  transition: color 0.3s ease;
+}
+
+.issueCard:hover .issueTitle {
+  color: var(--accent);
+}
+
+.issueSub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.downloadBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(50, 53, 53, 0.3);
+  border: 1px solid transparent;
+  color: var(--foreground);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.issueCard:hover .downloadBtn {
+  background: var(--primary-container);
+  border-color: var(--primary);
+  color: var(--foreground);
+}
+
+/* Category Grid */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.categoryLink {
+  display: block;
+}
+
+.categoryCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.categoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transition: left 0.6s ease;
+}
+
+.categoryLink:hover .categoryCard::before {
+  left: 100%;
+}
+
+.categoryLink:hover .categoryCard {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(233, 195, 73, 0.15);
+  transform: translateY(-4px);
+}
+
+.iconWrapper {
+  padding: 16px;
+  background: rgba(13, 92, 52, 0.15);
+  border: 1px solid rgba(13, 92, 52, 0.3);
+  border-radius: 16px;
+  width: fit-content;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.categoryLink:hover .iconWrapper {
+  background: rgba(13, 92, 52, 0.35);
+}
+
+.categoryIcon {
+  font-size: 2.2rem;
+  color: var(--primary);
+}
+
+.categoryCardH3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.categoryLink:hover .categoryCardH3 {
+  color: var(--primary);
+}
+
+.categoryDesc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  flex-grow: 1;
+}
+
+.browseLink {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateX(16px);
+  transition: all 0.3s ease;
+}
+
+.categoryLink:hover .browseLink {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .journalGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .categoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroCard {
+    padding: 30px;
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+  .heroLeft {
+    max-width: 100%;
+  }
+  .heroRight {
+    display: none;
+  }
+  .heroTitle {
+    font-size: 2rem;
+  }
+  .journalGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .categoryGrid {
+    grid-template-columns: 1fr;
+  }
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .journalGrid {
+    grid-template-columns: 1fr;
+  }
+}

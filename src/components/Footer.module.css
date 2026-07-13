@@ -1,0 +1,138 @@
+.footer {
+  background-color: #b2e8cd; /* More saturated Mint Green Background */
+  color: var(--foreground); /* Dark green-charcoal text */
+  padding: 60px 0 30px;
+  border-top: 2px solid var(--primary);
+  margin-top: auto; /* Push footer to bottom */
+  font-family: inherit;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footerCol h3 {
+  font-size: 1.25rem;
+  color: var(--primary); /* Green headings to contrast mint green bg */
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.footerCol h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: var(--primary);
+}
+
+[dir="rtl"] .footerCol h3::after {
+  left: auto;
+  right: 0;
+}
+
+.desc {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  line-height: 1.7;
+  margin-top: 15px;
+}
+
+.linksList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linksList li a {
+  font-size: 0.95rem;
+  color: var(--foreground);
+  opacity: 0.9;
+  display: inline-block;
+}
+
+.linksList li a:hover {
+  opacity: 1;
+  color: var(--primary-light);
+  transform: translateX(5px);
+}
+
+[dir="rtl"] .linksList li a:hover {
+  transform: translateX(-5px);
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.contactIcon {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.socialRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(13, 92, 52, 0.1);
+  border: 1px solid rgba(13, 92, 52, 0.15);
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.socialIcon:hover {
+  background: var(--primary);
+  color: #FFFFFF !important;
+  transform: scale(1.1);
+}
+
+.bottomBar {
+  border-top: 1px solid rgba(13, 92, 52, 0.15);
+  padding-top: 25px;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .footer {
+    padding: 40px 0 20px;
+  }
+}

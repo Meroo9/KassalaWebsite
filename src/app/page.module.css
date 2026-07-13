@@ -1,0 +1,581 @@
+/* Hero Slider Styling */
+.heroSlider {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.activeSlide {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slideImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  filter: brightness(0.6);
+}
+
+.heroTextContent {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 580px;
+  margin-top: 50px;
+  padding: 40px 0;
+  animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+[dir="rtl"] .heroTextContent {
+  margin-right: 50px;
+  margin-left: 0;
+}
+[dir="ltr"] .heroTextContent {
+  margin-left: 50px;
+  margin-right: 0;
+}
+
+.heroTextContent h1 {
+  font-size: 3.2rem;
+  color: var(--primary);
+  text-shadow: 0 2px 6px rgba(255, 255, 255, 0.9);
+  font-weight: 900;
+  margin-bottom: 15px;
+}
+
+.heroTextContent p {
+  color: #b08c1a;
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  font-weight: 800;
+  text-shadow: 0 2px 6px rgba(255, 255, 255, 0.9);
+}
+
+/* Floating Search Icon on the Side of Hero */
+.heroSearchFloating {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[dir="rtl"] .heroSearchFloating {
+  left: 50px;
+}
+[dir="ltr"] .heroSearchFloating {
+  right: 50px;
+}
+
+.heroSearchForm {
+  display: flex;
+  align-items: center;
+  background: rgba(17, 20, 20, 0.5);
+  border: 2px solid var(--accent);
+  backdrop-filter: blur(16px);
+  border-radius: 40px;
+  overflow: hidden;
+  width: 60px;
+  height: 60px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.heroSearchActive .heroSearchForm {
+  width: 320px;
+  background: rgba(17, 20, 20, 0.85);
+  box-shadow: 0 8px 32px rgba(13, 92, 52, 0.4);
+}
+
+.heroSearchInput {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0 16px 0 64px;
+  font-size: 1rem;
+  color: #ffffff;
+  outline: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[dir="rtl"] .heroSearchInput {
+  padding: 0 64px 0 16px;
+}
+
+.heroSearchActive .heroSearchInput {
+  opacity: 1;
+}
+
+.heroSearchBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--accent);
+  color: var(--primary-dark);
+  cursor: pointer;
+  font-size: 1.3rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+[dir="rtl"] .heroSearchBtn {
+  right: 2px;
+}
+[dir="ltr"] .heroSearchBtn {
+  left: 2px;
+}
+
+.heroSearchBtn:hover {
+  background: #ffffff;
+  color: var(--primary);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 15px;
+}
+
+.sliderArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.sliderArrow:hover {
+  background: var(--accent);
+  color: var(--background);
+  border-color: var(--accent);
+}
+
+.arrowPrev {
+  left: 20px;
+}
+
+.arrowNext {
+  right: 20px;
+}
+
+.sliderDots {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+}
+
+.activeDot {
+  background: var(--accent);
+  width: 25px;
+  border-radius: 5px;
+}
+
+/* Welcome Section */
+.welcomeSection {
+  background: transparent;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.welcomeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.rectorCard {
+  position: relative;
+}
+
+.rectorImage {
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  border: 4px solid var(--glass-border);
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+}
+
+.rectorFrame {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 100%;
+  height: 100%;
+  border: 4px solid var(--accent);
+  border-radius: 20px;
+  z-index: -1;
+}
+
+[dir="rtl"] .rectorFrame {
+  right: auto;
+  left: -20px;
+}
+
+.welcomeContent h3 {
+  font-size: 1.4rem;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+
+.welcomeContent h2 {
+  font-size: 2.2rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.speechText {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 30px;
+  position: relative;
+  padding-left: 20px;
+}
+
+[dir="rtl"] .speechText {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.speechText::before {
+  content: '"';
+  position: absolute;
+  top: -15px;
+  left: 0;
+  font-size: 4rem;
+  color: rgba(13, 92, 52, 0.3);
+  font-family: serif;
+}
+
+[dir="rtl"] .speechText::before {
+  left: auto;
+  right: 0;
+}
+
+/* Stats Section */
+.statsSection {
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.statItem {
+  text-align: center;
+  padding: 30px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition);
+}
+
+.statItem:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 30px rgba(13, 92, 52, 0.25);
+}
+
+.statNumber {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #FFFFFF; /* High contrast White */
+  line-height: 1.1;
+  margin-bottom: 12px;
+  text-shadow: 0 0 25px rgba(255, 255, 255, 0.35);
+}
+
+.statLabel {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9); /* High contrast light grey/white */
+}
+
+@media (max-width: 992px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* News Section */
+.newsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.newsCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: var(--transition);
+}
+
+.newsCard:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 25px rgba(233, 195, 73, 0.15);
+  transform: translateY(-4px);
+}
+
+.newsImageWrapper {
+  position: relative;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.newsImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.newsCard:hover .newsImage {
+  transform: scale(1.08);
+}
+
+.newsDate {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.newsCard h3 {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.newsCard p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.readMoreBtn {
+  font-weight: 700;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.readMoreBtn:hover {
+  color: var(--primary);
+}
+
+/* Colleges Section */
+.collegesSection {
+  background: transparent;
+}
+
+.collegesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.collegeCard {
+  background: var(--glass-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.collegeCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(233, 195, 73, 0.15);
+  border-color: var(--accent);
+}
+
+.collegeImg {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.collegeBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.collegeBody h3 {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.collegeBody p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.collegeLink {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.collegeLink:hover {
+  color: var(--primary);
+}
+
+/* Keyframes */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Overrides */
+@media (max-width: 992px) {
+  .welcomeGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .rectorImage {
+    height: 350px;
+  }
+  
+  .heroTextContent {
+    margin: 40px auto 0;
+    max-width: 90%;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  [dir="rtl"] .heroTextContent {
+    margin-right: auto;
+  }
+  [dir="ltr"] .heroTextContent {
+    margin-left: auto;
+  }
+
+  .heroTextContent h1 {
+    font-size: 2.5rem;
+  }
+
+  .ctaGroup {
+    justify-content: center;
+  }
+
+  .heroSearchFloating {
+    display: none !important;
+  }
+  
+  .heroSlider {
+    height: 550px;
+  }
+}
+
+@media (max-width: 576px) {
+  .heroSlider {
+    height: 500px;
+  }
+  
+  .heroTextContent h1 {
+    font-size: 1.8rem;
+  }
+  
+  .heroTextContent p {
+    font-size: 0.95rem;
+  }
+}

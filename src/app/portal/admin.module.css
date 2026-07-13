@@ -1,0 +1,299 @@
+.adminContainer {
+  padding: 40px 0;
+  background: var(--platinum);
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 15px;
+}
+
+.dashboardHeader h2 {
+  color: var(--primary-dark);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.resetBtn {
+  background: #E53E3E;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.resetBtn:hover {
+  background: #C53030;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
+}
+
+.adminGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.adminCard {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.adminCard h3 {
+  font-size: 1.3rem;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--platinum-dark);
+  padding-bottom: 10px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGroup label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary-dark);
+}
+
+.inputField, .selectField, .textareaField {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--platinum-dark);
+  background: var(--platinum);
+  font-size: 0.9rem;
+  color: var(--foreground);
+}
+
+.inputField:focus, .selectField:focus, .textareaField:focus {
+  border-color: var(--primary);
+  background: #FFFFFF;
+  outline: none;
+}
+
+.submitBtn {
+  background-color: var(--primary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  margin-top: 10px;
+  transition: var(--transition);
+}
+
+.submitBtn:hover {
+  background-color: var(--primary-dark);
+}
+
+.servicesList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.serviceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--platinum);
+  border-radius: 8px;
+  border: 1px solid var(--platinum-dark);
+}
+
+.serviceInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.serviceTitle {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.serviceCategory {
+  font-size: 0.75rem;
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #E53E3E;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.85rem;
+}
+
+.deleteBtn:hover {
+  color: #C53030;
+  text-decoration: underline;
+}
+
+.statusMsg {
+  background: rgba(13, 92, 52, 0.1);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-light);
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tabControls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabBtn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--platinum-dark);
+  background: #FFFFFF;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.activeTabBtn {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+@media (max-width: 992px) {
+  .adminGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Custom Category Inputs */
+.catInputRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.newCatBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.newCatBtn:hover {
+  background: var(--primary-dark);
+}
+
+/* File Upload Picker */
+.fileInputRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fileUploadLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.85rem;
+  border: 1px dashed var(--primary);
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.fileUploadLabel:hover {
+  background: #EED26D;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
+
+.fileUploadLabel input {
+  display: none;
+}
+
+/* Visual Icon Picker */
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.iconSelectCard {
+  background: var(--platinum);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.iconSelectCard:hover {
+  background: #FFFFFF;
+  border-color: var(--platinum-dark);
+}
+
+.iconSelectCardActive {
+  background: #FFFFFF;
+  border-color: var(--accent);
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.25);
+}
+
+.iconVisual {
+  font-size: 1.6rem;
+}
+
+.iconLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+@media (max-width: 576px) {
+  .iconGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

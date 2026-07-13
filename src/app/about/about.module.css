@@ -1,0 +1,225 @@
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 50px;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+.aboutText h2 {
+  font-size: 2.2rem;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+}
+
+.aboutText p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.aboutImageWrapper {
+  position: relative;
+}
+
+.aboutImage {
+  border-radius: 16px;
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Cards layout for Vision/Mission */
+.visionMissionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.visionCard, .missionCard {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.visionCard:hover, .missionCard:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--accent-dark);
+}
+
+.visionCard h3, .missionCard h3 {
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+  margin-bottom: 15px;
+}
+
+.visionCard p, .missionCard p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* Objectives Section */
+.objectivesBox {
+  background: var(--primary-dark);
+  color: #FFFFFF;
+  border-radius: 20px;
+  padding: 50px;
+  margin-bottom: 60px;
+  box-shadow: var(--box-shadow-hover);
+}
+
+.objectivesBox h3 {
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.objectivesList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.objectiveItem {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.objNumber {
+  background: var(--accent);
+  color: var(--primary-dark);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.objText {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Historical Timeline styling */
+.timelineSection {
+  background: #FFFFFF;
+  padding: 60px 40px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding-left: 30px;
+}
+
+[dir="rtl"] .timeline {
+  padding-left: 0;
+  padding-right: 30px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 4px;
+  background: var(--primary-light);
+  opacity: 0.2;
+}
+
+[dir="rtl"] .timeline::before {
+  left: auto;
+  right: 3px;
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: -33px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 0 0 4px var(--primary);
+  z-index: 10;
+}
+
+[dir="rtl"] .timelineItem::before {
+  left: auto;
+  right: -33px;
+}
+
+.timelineYear {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.timelineTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+
+.timelineDesc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Responsive queries */
+@media (max-width: 992px) {
+  .aboutGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .aboutImage {
+    height: 300px;
+  }
+  
+  .objectivesList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .visionMissionGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .objectivesBox {
+    padding: 30px;
+  }
+}

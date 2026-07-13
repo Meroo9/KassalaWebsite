@@ -1,0 +1,219 @@
+.newsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.newsCard {
+  background: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.newsCard:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--box-shadow-hover);
+  border-color: var(--accent);
+}
+
+.imgWrapper {
+  height: 220px;
+  overflow: hidden;
+}
+
+.newsImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.newsCard:hover .newsImg {
+  transform: scale(1.08);
+}
+
+.cardBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.date {
+  font-size: 0.85rem;
+  color: var(--accent-dark);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.cardBody h3 {
+  font-size: 1.25rem;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.cardBody p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.readMore {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.readMore:hover {
+  color: var(--accent-dark);
+}
+
+/* Modal Popup Styling for Full News Post */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 59, 30, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modalContent {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  border: 1px solid var(--accent-light);
+  animation: scaleUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(13, 92, 52, 0.1);
+  color: var(--primary-dark);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 700;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+[dir="rtl"] .closeBtn {
+  right: auto;
+  left: 20px;
+}
+
+.closeBtn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.modalImg {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+}
+
+.modalBody {
+  padding: 40px;
+}
+
+.modalDate {
+  font-size: 0.9rem;
+  color: var(--accent-dark);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.modalBody h2 {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.modalText {
+  color: var(--foreground);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.modalText p {
+  margin-bottom: 20px;
+}
+
+/* Spinner */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(13, 92, 52, 0.1);
+  border-top: 5px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 40px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .modalBody {
+    padding: 25px;
+  }
+  
+  .modalImg {
+    height: 250px;
+  }
+  
+  .modalBody h2 {
+    font-size: 1.4rem;
+  }
+}

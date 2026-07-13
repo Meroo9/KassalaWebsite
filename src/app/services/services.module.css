@@ -1,0 +1,378 @@
+.servicesPage {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  color: var(--foreground);
+}
+
+.glowSphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+  animation: pulseGlow 8s infinite alternate;
+}
+
+.glowSphere1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+  top: -10%;
+  left: -10%;
+}
+
+.glowSphere2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+  bottom: 10%;
+  right: -10%;
+  animation-delay: 2s;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+  100% { transform: scale(1.1) translate(20px, -20px); opacity: 0.5; }
+}
+
+.mainContent {
+  position: relative;
+  z-index: 10;
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.pageTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.pageDesc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Search Bar */
+.searchContainer {
+  max-width: 768px;
+  margin: 0 auto 60px auto;
+  position: relative;
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(17, 20, 20, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  padding: 8px 12px;
+  transition: border-color 0.3s ease;
+}
+
+.searchBox:focus-within {
+  border-color: var(--primary);
+}
+
+.searchIcon {
+  color: var(--text-muted);
+  margin: 0 16px;
+  font-size: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  font-size: 1rem;
+  padding: 8px 0;
+  outline: none;
+}
+
+.searchBtn {
+  background: var(--primary-container);
+  color: var(--foreground);
+  padding: 8px 24px;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-left: 8px;
+}
+
+[dir="rtl"] .searchBtn {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+.searchBtn:hover {
+  background: rgba(13, 92, 52, 0.8);
+}
+
+/* Tab Container */
+.tabContainer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+
+.tabBtn:hover {
+  background: var(--glass-bg);
+  color: var(--foreground);
+  border-color: var(--accent);
+}
+
+.activeTabBtn {
+  background: rgba(233, 195, 73, 0.1);
+  color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 4px 15px rgba(233, 195, 73, 0.15);
+}
+
+/* Services Grid */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 50px;
+}
+
+.serviceCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.serviceCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transition: left 0.6s ease;
+}
+
+.serviceCard:hover::before {
+  left: 100%;
+}
+
+.serviceCard:hover {
+  backdrop-filter: blur(20px);
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(233, 195, 73, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Featured / Highlighted Card (Card 2) */
+.highlighted {
+  border-color: rgba(233, 195, 73, 0.5) !important;
+  background: rgba(233, 195, 73, 0.05) !important;
+  box-shadow: 0 0 20px rgba(233, 195, 73, 0.1) !important;
+}
+
+.highlightedBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  color: var(--primary);
+  transition: color 0.3s ease;
+}
+
+.serviceCard:hover .iconWrapper {
+  color: var(--accent);
+}
+
+.iconWrapperHighlighted {
+  background: rgba(233, 195, 73, 0.2) !important;
+  border: 1px solid rgba(233, 195, 73, 0.3) !important;
+  color: var(--accent) !important;
+}
+
+.badge {
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  background: rgba(13, 92, 52, 0.2);
+  color: var(--primary);
+  border: 1px solid rgba(13, 92, 52, 0.3);
+}
+
+.badgeHighlighted {
+  background: rgba(233, 195, 73, 0.2) !important;
+  color: var(--accent) !important;
+  border: 1px solid rgba(233, 195, 73, 0.3) !important;
+  box-shadow: 0 0 10px rgba(233, 195, 73, 0.5) !important;
+}
+
+.serviceCard h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8px;
+}
+
+.serviceCard p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  margin-top: auto;
+}
+
+.serviceCard:hover .cardFooter {
+  color: var(--accent);
+}
+
+.footerHighlighted {
+  color: var(--accent) !important;
+}
+
+.arrowIcon {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.serviceCard:hover .arrowIcon {
+  transform: translateX(-4px);
+}
+
+[dir="ltr"] .serviceCard:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+/* Grid Layout modifications for Bento style */
+.colSpan2 {
+  grid-column: span 2;
+}
+
+.horizontalCard {
+  flex-direction: row !important;
+  gap: 24px;
+  align-items: center;
+}
+
+.horizontalLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontalRight {
+  width: 192px;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--platinum-dark);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizontalRightBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(13, 92, 52, 0.1) 0%, transparent 100%);
+}
+
+.horizontalRightIcon {
+  font-size: 3.5rem;
+  color: var(--text-muted);
+  opacity: 0.3;
+}
+
+@media (max-width: 1024px) {
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .colSpan2 {
+    grid-column: span 1;
+  }
+  .horizontalCard {
+    flex-direction: column !important;
+    align-items: flex-start;
+  }
+  .horizontalRight {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+  .pageTitle {
+    font-size: 2rem;
+  }
+}

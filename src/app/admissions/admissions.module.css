@@ -1,0 +1,198 @@
+.admissionsGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 50px;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+.reqCard {
+  background: var(--platinum);
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+}
+
+.reqCard h3 {
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reqCard p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+.stepsSection h3 {
+  font-size: 1.6rem;
+  color: var(--primary-dark);
+  margin-bottom: 30px;
+}
+
+.stepList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stepCard {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.stepCard:hover {
+  transform: translateX(8px);
+  border-color: var(--accent);
+}
+
+[dir="rtl"] .stepCard:hover {
+  transform: translateX(-8px);
+}
+
+.stepNumber {
+  background: var(--primary);
+  color: #FFFFFF;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(13, 92, 52, 0.2);
+}
+
+.stepText {
+  font-size: 1.05rem;
+  color: var(--foreground);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Calendar table styling */
+.calendarWrapper {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  padding: 40px;
+  box-shadow: var(--box-shadow);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.calendarTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  font-size: 1rem;
+}
+
+.calendarTable th {
+  background: var(--primary-dark);
+  color: #FFFFFF;
+  text-align: left;
+  padding: 16px;
+  font-weight: 700;
+}
+
+[dir="rtl"] .calendarTable th {
+  text-align: right;
+}
+
+.calendarTable td {
+  padding: 16px;
+  border-bottom: 1px solid var(--platinum-dark);
+  color: var(--foreground);
+}
+
+.calendarTable tr:last-child td {
+  border-bottom: none;
+}
+
+.calendarTable tr:nth-child(even) {
+  background: var(--platinum);
+}
+
+.eventDate {
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+@media (max-width: 992px) {
+  .admissionsGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendarWrapper {
+    padding: 15px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .calendarTable, 
+  .calendarTable thead, 
+  .calendarTable tbody, 
+  .calendarTable th, 
+  .calendarTable td, 
+  .calendarTable tr {
+    display: block;
+    width: 100%;
+  }
+
+  .calendarTable thead {
+    display: none;
+  }
+
+  .calendarTable tr {
+    margin-bottom: 15px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: var(--box-shadow);
+  }
+
+  .calendarTable tr:nth-child(even) {
+    background: #FFFFFF;
+  }
+
+  .calendarTable td {
+    padding: 0;
+    border: none;
+  }
+
+  .calendarTable td:first-child {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+  }
+
+  .eventDate {
+    font-size: 0.95rem;
+    color: var(--accent);
+    display: block;
+    margin-top: 6px;
+  }
+}

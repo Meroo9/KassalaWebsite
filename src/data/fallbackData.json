@@ -1,0 +1,139 @@
+{
+  "stats": [
+    { "id": "students", "number": "+12,000", "labelKey": "stats_students" },
+    { "id": "faculties", "number": "13", "labelKey": "stats_faculties" },
+    { "id": "researchers", "number": "+450", "labelKey": "stats_researchers" },
+    { "id": "journals", "number": "4", "labelKey": "stats_journals" }
+  ],
+  "colleges": [
+    {
+      "id": "med",
+      "category": "medical",
+      "arName": "كلية الطب والعلوم الصحية",
+      "enName": "College of Medicine & Health Sciences",
+      "arDesc": "تقدم برامج أكاديمية رائدة وتدريباً سريرياً متميزاً لتخريج أطباء أكفاء يسهمون في ترقية الخدمات الصحية في المجتمع.",
+      "enDesc": "Offering leading academic programs and outstanding clinical training to graduate competent physicians who enhance health services.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "link": "http://kassalauni.edu.sd/nw/medicine/"
+    },
+    {
+      "id": "eng",
+      "category": "engineering",
+      "arName": "كلية الهندسة",
+      "enName": "College of Engineering",
+      "arDesc": "تسعى لتخريج مهندسين متميزين في التخصصات المختلفة (مدني، كهرباء، ميكانيكا) وتطوير البنية التحتية والابتكار التكنولوجي.",
+      "enDesc": "Striving to graduate outstanding engineers in various fields (Civil, Electrical, Mechanical) and develop infrastructure and tech.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734555315_4435478873361038_6959488191142279218_n-1024x768.jpg",
+      "link": "https://kassalauni.edu.sd/nw/eng/"
+    },
+    {
+      "id": "computer",
+      "category": "engineering",
+      "arName": "كلية علوم الحاسوب وتقانة المعلومات",
+      "enName": "College of Computer Science & IT",
+      "arDesc": "تواكب التطور المتسارع للبرمجيات والشبكات والذكاء الاصطناعي لتأهيل كوادر قادرة على قيادة التحول الرقمي.",
+      "enDesc": "Keeping pace with the rapid development of software, networking, and AI to qualify leaders for digital transformation.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734387670_1841553713917530_4553439783248006899_n-1024x768.jpg",
+      "link": "http://kassalauni.edu.sd/nw/computer/"
+    },
+    {
+      "id": "edu",
+      "category": "humanities",
+      "arName": "كلية التربية - كسلا",
+      "enName": "College of Education - Kassala",
+      "arDesc": "إعداد المعلمين وتأهيل التربويين وتطوير مناهج التعليم لرفع كفاءة ومخرجات المؤسسات التعليمية بالولاية والسودان.",
+      "enDesc": "Preparing teachers, qualifying educators, and developing educational curricula to raise the efficiency of state education.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg",
+      "link": "http://kassalauni.edu.sd/nw/edu-kassala/"
+    },
+    {
+      "id": "econ",
+      "category": "humanities",
+      "arName": "كلية الاقتصاد والعلوم الإدارية",
+      "enName": "College of Economics & Management",
+      "arDesc": "تأهيل وتخريج الكفاءات في مجالات المحاسبة، إدارة الأعمال، والاقتصاد القومي والمحلي وتطوير الإدارة العامة والخاصة.",
+      "enDesc": "Qualifying and graduating experts in Accounting, Business Administration, and Macro/Microeconomics to improve management.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/735001900_1971875180184456_6243160296725410798_n-1024x768.jpg",
+      "link": "http://kassalauni.edu.sd/nw/economic/ar/"
+    },
+    {
+      "id": "law",
+      "category": "humanities",
+      "arName": "كلية القانون",
+      "enName": "College of Law",
+      "arDesc": "ترسيخ ثقافة العدالة وسيادة القانون من خلال برامج أكاديمية متميزة في الشريعة والقانون وتدريب وتخريج المستشارين والمحامين.",
+      "enDesc": "Rooting the culture of justice and rule of law through outstanding programs in Sharia and Law, preparing advocates.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "link": "https://kassalauni.edu.sd/nw/law"
+    }
+  ],
+  "news": [
+    {
+      "id": 1,
+      "date": "2026-07-05",
+      "arTitle": "انعقاد مجلس الأساتذة رقم (222) برئاسة مديرة الجامعة لمناقشة القضايا الأكاديمية وإجازة المناهج الحديثة",
+      "enTitle": "Senate Meeting No. (222) Chaired by the Rector to Discuss Academic Affairs and Approve New Curriculums",
+      "arExcerpt": "عقد مجلس الأساتذة بجامعة كسلا جلسته رقم 222 لمناقشة مجموعة من القضايا الأكاديمية الهامة، وإجازة النتائج والدرجات العلمية وتعديل بعض المناهج بكلية الصحة العامة.",
+      "enExcerpt": "The Senate of University of Kassala held its 222nd meeting to discuss key academic issues, approve graduation results, and update public health curriculums.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "link": "/news"
+    },
+    {
+      "id": 2,
+      "date": "2026-07-04",
+      "arTitle": "جامعة كسلا تكرم العقيد عبد الله محمد سر الختم تقديراً لجهوده المتميزة في دعم ملف التعليم العالي بالولاية",
+      "enTitle": "University of Kassala Honors Col. Abdullah Mohamed Sir Al-Khatim for High Education Support",
+      "arExcerpt": "في حفل تكريم متميز بحضور إدارة الجامعة ووكلاء وعمداء الكليات، كرمت مديرة الجامعة العقيد عبد الله سر الختم لخدماته الجليلة وتسهيلاته لملف التعليم العالي.",
+      "enExcerpt": "In a special ceremony attended by university deans and directors, the rector honored Col. Abdullah Sir Al-Khatim for his services to higher education.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg",
+      "link": "/news"
+    },
+    {
+      "id": 3,
+      "date": "2026-06-28",
+      "arTitle": "عمادة البحث العلمي تعلن عن تمويل 10 مشاريع بحثية تطبيقية تخدم قضايا التنمية والبيئة والمياه في شرق السودان",
+      "enTitle": "Deanship of Scientific Research Announces Funding for 10 Applied Projects Targeting Eastern Sudan Issues",
+      "arExcerpt": "أعلنت عمادة البحث العلمي والتطوير الأكاديمي عن فتح باب التقديم لتمويل بحوث تركز على قضايا المياه والبيئة والأوبئة بولاية كسلا بمشاركة باحثين محليين ودوليين.",
+      "enExcerpt": "The deanship announced new research grants focusing on water resources, environment, and epidemics in Kassala State.",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734555315_4435478873361038_6959488191142279218_n-1024x768.jpg",
+      "link": "/news"
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1,
+      "category": "campus",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "arCaption": "مجمع كليات الطب والعلوم الصحية بوسط مدينة كسلا",
+      "enCaption": "College of Medicine Campus in Central Kassala"
+    },
+    {
+      "id": 2,
+      "category": "campus",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734555315_4435478873361038_6959488191142279218_n-1024x768.jpg",
+      "arCaption": "المعامل الهندسية الحديثة وقاعات الورش بكلية الهندسة",
+      "enCaption": "Modern Engineering Laboratories & Workshops at College of Engineering"
+    },
+    {
+      "id": 3,
+      "category": "events",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg",
+      "arCaption": "لقطة من اجتماع مجلس الأساتذة الأخير لمناقشة تطوير المناهج",
+      "enCaption": "Academic Staff Senate Meeting Discussing Curriculum Development"
+    },
+    {
+      "id": 4,
+      "category": "events",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734387670_1841553713917530_4553439783248006899_n-1024x768.jpg",
+      "arCaption": "ندوة علمية حول الابتكار الرقمي والتحول الذكي برعاية كلية علوم الحاسوب",
+      "enCaption": "Scientific Seminar on Digital Innovation & AI Chaired by CS & IT College"
+    },
+    {
+      "id": 5,
+      "category": "graduations",
+      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/735001900_1971875180184456_6243160296725410798_n-1024x768.jpg",
+      "arCaption": "فرحة الطلاب الخريجين في حفل تخريج الدفعة السابقة بكلية الاقتصاد",
+      "enCaption": "Graduating Students Celebrating at Economics Deanship Graduation"
+    }
+  ]
+}
