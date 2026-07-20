@@ -17,7 +17,39 @@ function ServicesContent() {
   const [searchInput, setSearchInput] = useState(searchParams.get("q") || "");
   const query = cleanSearchQuery(searchParams.get("q") || "").toLowerCase();
 
-  const [activeTab, setActiveTab] = useState("students");
+  // Initialize activeTab state from the 'tab' search parameter (or "students" if empty/invalid)
+  const getInitialTab = () => {
+    const tabParam = searchParams.get("tab");
+    const validTabs = ["students", "faculty", "staff", "visitors"];
+    if (tabParam && validTabs.includes(tabParam)) {
+      return tabParam;
+    }
+    if (tabParam === "employees") return "staff";
+    return "students";
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab());
+
+  // Listen for search parameters changes to keep tab state synchronized
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    const validTabs = ["students", "faculty", "staff", "visitors"];
+    if (tabParam && validTabs.includes(tabParam)) {
+      setActiveTab(tabParam);
+    } else if (tabParam === "employees") {
+      setActiveTab("staff");
+    } else if (!tabParam) {
+      setActiveTab("students");
+    }
+  }, [searchParams]);
+
+  // Update tab state and URL query parameter
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    const params = new URLSearchParams(window.location.search);
+    params.set("tab", tabId);
+    router.push(`/services?${params.toString()}`);
+  };
 
   const tabs = [
     { id: "students", labelKey: "tab_students" },
@@ -102,7 +134,7 @@ function ServicesContent() {
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   className={`${styles.tabBtn} ${activeTab === tab.id ? styles.activeTabBtn : ""}`}
                 >
                   {t(tab.labelKey)}
