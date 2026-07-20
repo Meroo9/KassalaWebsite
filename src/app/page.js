@@ -6,6 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { contentService } from "../services/contentService";
 import fallbackData from "../data/fallbackData.json";
 import styles from "./page.module.css";
+import TechIcon from "../components/TechIcon";
 
 function AnimatedNumber({ value }) {
   const [count, setCount] = useState(0);
@@ -63,6 +64,7 @@ export default function Home() {
   const [hero, setHero] = useState(() => contentService.getHeroSettings());
   const [rector, setRector] = useState(() => contentService.getRectorSettings());
   const [featuredColleges, setFeaturedColleges] = useState(() => contentService.getColleges().slice(0, 3));
+  const [services, setServices] = useState([]);
 
   // Load CMS settings dynamically on mount
   useEffect(() => {
@@ -70,6 +72,7 @@ export default function Home() {
       setHero(contentService.getHeroSettings());
       setRector(contentService.getRectorSettings());
       setFeaturedColleges(contentService.getColleges().slice(0, 3));
+      setServices(contentService.getServices("students"));
     }, 0);
     return () => clearTimeout(timer);
   }, []);
@@ -219,6 +222,29 @@ export default function Home() {
               onClick={() => setCurrentSlide(index)}
             ></span>
           ))}
+        </div>
+      </section>
+
+      {/* Quick Portals Grid Section */}
+      <section className={styles.quickServicesSection}>
+        <div className="container animate-fade-in">
+          <div className={styles.quickServicesGrid}>
+            {services.slice(0, 4).map((service) => (
+              <a
+                key={service.id}
+                href={service.link}
+                target={service.link.startsWith("http") ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+                className={styles.portalCard}
+              >
+                <div className={styles.portalIconWrapper}>
+                  <TechIcon type={service.icon || "star"} size={48} />
+                </div>
+                <h3>{locale === "ar" ? service.arTitle : service.enTitle}</h3>
+                <p>{locale === "ar" ? service.arDesc : service.enDesc}</p>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 

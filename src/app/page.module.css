@@ -579,3 +579,74 @@
     font-size: 0.95rem;
   }
 }
+
+
+/* Quick Services Portals Section */
+.quickServicesSection {
+  padding: 50px 0;
+  background: var(--background);
+  position: relative;
+  z-index: 10;
+}
+
+.quickServicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.portalCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 30px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.portalCard:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 30px rgba(13, 92, 52, 0.12), 0 0 0 1px var(--primary);
+}
+
+.portalIconWrapper {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background: rgba(13, 92, 52, 0.05);
+  transition: all 0.4s ease;
+}
+
+.portalCard:hover .portalIconWrapper {
+  background: rgba(13, 92, 52, 0.1);
+  transform: scale(1.1);
+}
+
+.portalCard h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 10px 0;
+  font-family: var(--font-family), 'Tajawal', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.portalCard p {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  opacity: 0.8;
+  line-height: 1.5;
+  margin: 0;
+}
