@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: 'kassalauni.edu.sd',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'kassalauni.edu.sd',
+        pathname: '/**',
+      },
     ],
   },
   async headers() {

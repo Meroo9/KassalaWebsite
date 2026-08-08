@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
+import { useUserRole, ROLES } from "../../context/UserRoleContext";
 import { contentService } from "../../services/contentService";
 import { cleanSearchQuery } from "../../utils/security";
 import styles from "./services.module.css";
@@ -10,6 +11,7 @@ import TechIcon from "../../components/TechIcon";
 
 function ServicesContent() {
   const { locale, t } = useLanguage();
+  const { role, changeRole } = useUserRole();
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -28,34 +30,20 @@ function ServicesContent() {
     return "students";
   };
 
-  const [activeTab, setActiveTab] = useState(getInitialTab());
-
-  // Listen for search parameters changes to keep tab state synchronized
-  useEffect(() => {
-    const tabParam = searchParams.get("tab");
-    const validTabs = ["students", "faculty", "staff", "visitors"];
-    if (tabParam && validTabs.includes(tabParam)) {
-      setActiveTab(tabParam);
-    } else if (tabParam === "employees") {
-      setActiveTab("staff");
-    } else if (!tabParam) {
-      setActiveTab("students");
-    }
-  }, [searchParams]);
+  const activeTab = getInitialTab();
 
   // Update tab state and URL query parameter
   const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
     const params = new URLSearchParams(window.location.search);
     params.set("tab", tabId);
     router.push(`/services?${params.toString()}`);
   };
 
   const tabs = [
-    { id: "students", labelKey: "tab_students" },
-    { id: "faculty", labelKey: "tab_faculty" },
-    { id: "staff", labelKey: "tab_staff" },
-    { id: "visitors", labelKey: "tab_visitors" },
+    { id: "students", labelKey: "tab_students", icon: "🎓" },
+    { id: "faculty", labelKey: "tab_faculty", icon: "👨‍🏫" },
+    { id: "staff", labelKey: "tab_staff", icon: "🏛️" },
+    { id: "visitors", labelKey: "tab_visitors", icon: "🌐" },
   ];
 
   let activeServices = contentService.getServices(activeTab);
@@ -112,9 +100,10 @@ function ServicesContent() {
           {/* Search Bar */}
           <div className={styles.searchContainer}>
             <form onSubmit={handleSearchSubmit} className={styles.searchBox}>
-              <span className={`material-symbols-outlined ${styles.searchIcon}`}>
-                search
-              </span>
+              <svg className={styles.searchIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
               <input
                 type="text"
                 placeholder={locale === "ar" ? "ابحث عن خدمة (مثال: تسجيل المقررات، استخراج شهادة...)" : "Search for a service (e.g. course registration, certificate...)"}
@@ -128,16 +117,18 @@ function ServicesContent() {
             </form>
           </div>
 
-          {/* Tabs Navigation */}
+          {/* Tabs Navigation (Interactive Animated Category Selector) */}
           {!query && (
-            <div className={styles.tabContainer}>
+            <div className={styles.tabContainer} suppressHydrationWarning>
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
+                  suppressHydrationWarning
                   onClick={() => handleTabChange(tab.id)}
                   className={`${styles.tabBtn} ${activeTab === tab.id ? styles.activeTabBtn : ""}`}
                 >
-                  {t(tab.labelKey)}
+                  <span style={{ fontSize: "1.1rem" }}>{tab.icon}</span>
+                  <span>{t(tab.labelKey)}</span>
                 </button>
               ))}
             </div>
@@ -177,9 +168,13 @@ function ServicesContent() {
                         <p>{desc}</p>
                         <div className={styles.cardFooter}>
                           <span>{locale === "ar" ? "دخول النظام" : "Access System"}</span>
-                          <span className={`material-symbols-outlined ${styles.arrowIcon}`}>
-                            {locale === "ar" ? "arrow_back" : "arrow_forward"}
-                          </span>
+                          <svg className={styles.arrowIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            {locale === "ar" ? (
+                              <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            ) : (
+                              <path d="M5 12h14M12 5l7 7-7 7"/>
+                            )}
+                          </svg>
                         </div>
                       </div>
                     ) : (
@@ -205,9 +200,13 @@ function ServicesContent() {
                         <p>{desc}</p>
                         <div className={`${styles.cardFooter} ${isHighlighted ? styles.footerHighlighted : ""}`}>
                           <span>{locale === "ar" ? "دخول النظام" : "Access System"}</span>
-                          <span className={`material-symbols-outlined ${styles.arrowIcon}`}>
-                            {locale === "ar" ? "arrow_back" : "arrow_forward"}
-                          </span>
+                          <svg className={styles.arrowIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            {locale === "ar" ? (
+                              <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            ) : (
+                              <path d="M5 12h14M12 5l7 7-7 7"/>
+                            )}
+                          </svg>
                         </div>
                       </>
                     )}

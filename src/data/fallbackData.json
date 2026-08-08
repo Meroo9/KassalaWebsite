@@ -13,7 +13,7 @@
       "enName": "College of Medicine & Health Sciences",
       "arDesc": "تقدم برامج أكاديمية رائدة وتدريباً سريرياً متميزاً لتخريج أطباء أكفاء يسهمون في ترقية الخدمات الصحية في المجتمع.",
       "enDesc": "Offering leading academic programs and outstanding clinical training to graduate competent physicians who enhance health services.",
-      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "image": "/images/med.jpeg",
       "link": "http://kassalauni.edu.sd/nw/medicine/"
     },
     {
@@ -23,7 +23,7 @@
       "enName": "College of Engineering",
       "arDesc": "تسعى لتخريج مهندسين متميزين في التخصصات المختلفة (مدني، كهرباء، ميكانيكا) وتطوير البنية التحتية والابتكار التكنولوجي.",
       "enDesc": "Striving to graduate outstanding engineers in various fields (Civil, Electrical, Mechanical) and develop infrastructure and tech.",
-      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734555315_4435478873361038_6959488191142279218_n-1024x768.jpg",
+      "image": "/images/univercity.png",
       "link": "https://kassalauni.edu.sd/nw/eng/"
     },
     {
@@ -33,7 +33,7 @@
       "enName": "College of Computer Science & IT",
       "arDesc": "تواكب التطور المتسارع للبرمجيات والشبكات والذكاء الاصطناعي لتأهيل كوادر قادرة على قيادة التحول الرقمي.",
       "enDesc": "Keeping pace with the rapid development of software, networking, and AI to qualify leaders for digital transformation.",
-      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/734387670_1841553713917530_4553439783248006899_n-1024x768.jpg",
+      "image": "/images/computer.jpeg",
       "link": "http://kassalauni.edu.sd/nw/computer/"
     },
     {
@@ -43,7 +43,7 @@
       "enName": "College of Education - Kassala",
       "arDesc": "إعداد المعلمين وتأهيل التربويين وتطوير مناهج التعليم لرفع كفاءة ومخرجات المؤسسات التعليمية بالولاية والسودان.",
       "enDesc": "Preparing teachers, qualifying educators, and developing educational curricula to raise the efficiency of state education.",
-      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg",
+      "image": "/images/educ.jpeg",
       "link": "http://kassalauni.edu.sd/nw/edu-kassala/"
     },
     {
@@ -53,7 +53,7 @@
       "enName": "College of Economics & Management",
       "arDesc": "تأهيل وتخريج الكفاءات في مجالات المحاسبة، إدارة الأعمال، والاقتصاد القومي والمحلي وتطوير الإدارة العامة والخاصة.",
       "enDesc": "Qualifying and graduating experts in Accounting, Business Administration, and Macro/Microeconomics to improve management.",
-      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/735001900_1971875180184456_6243160296725410798_n-1024x768.jpg",
+      "image": "/images/econmy.jpeg",
       "link": "http://kassalauni.edu.sd/nw/economic/ar/"
     },
     {
@@ -63,7 +63,7 @@
       "enName": "College of Law",
       "arDesc": "ترسيخ ثقافة العدالة وسيادة القانون من خلال برامج أكاديمية متميزة في الشريعة والقانون وتدريب وتخريج المستشارين والمحامين.",
       "enDesc": "Rooting the culture of justice and rule of law through outstanding programs in Sharia and Law, preparing advocates.",
-      "image": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "image": "/images/law.jpeg",
       "link": "https://kassalauni.edu.sd/nw/law"
     }
   ],

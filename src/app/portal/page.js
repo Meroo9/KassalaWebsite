@@ -8,7 +8,7 @@ import styles from "./admin.module.css";
 
 export default function AdminDashboard() {
   const { locale } = useLanguage();
-  const [activeTab, setActiveTab] = useState("theme"); // theme | hero | rector | services | colleges | news | research | gallery | contact
+  const [activeTab, setActiveTab] = useState("overview"); // overview | theme | hero | rector | services | colleges | news | research | gallery | contact
   const [statusMessage, setStatusMessage] = useState("");
 
   // Editing Item Tracking
@@ -461,7 +461,7 @@ export default function AdminDashboard() {
   ];
 
   const tabs = [
-    { id: "theme", label: locale === "ar" ? "🎨 المظهر والنمط" : "Theme Style" },
+    { id: "overview", label: locale === "ar" ? "📊 الإحصائيات العامة" : "Analytics Overview" },
     { id: "hero", label: locale === "ar" ? "🖼️ البانر الرئيسي" : "Hero Slider" },
     { id: "rector", label: locale === "ar" ? "✍️ كلمة المديرة" : "Rector Speech" },
     { id: "services", label: locale === "ar" ? "💻 الخدمات الرقمية" : "Services" },
@@ -512,152 +512,129 @@ export default function AdminDashboard() {
 
           <div className={styles.adminGrid}>
 
-            {/* ---------------------------------------------------- */}
-            {/* 1. THEME & APPEARANCE CUSTOMIZER                     */}
-            {/* ---------------------------------------------------- */}
-            {activeTab === "theme" && (
-              <div className={styles.adminCard} style={{ gridColumn: "1 / -1" }}>
-                <h3>🎨 {locale === "ar" ? "تخصيص المظهر والألوان ونمط الموقع" : "Customize Themes, Colors & Typography"}</h3>
-                
-                {/* Google Stitch Integration Button */}
-                <div style={{ marginBottom: "25px", borderBottom: "1px solid var(--border-color)", paddingBottom: "20px" }}>
-                  <button
-                    type="button"
-                    onClick={applyStitchTheme}
-                    style={{
-                      background: "linear-gradient(135deg, #0d5c34 0%, #111414 100%)",
-                      color: "#e9c349",
-                      border: "2px solid #e9c349",
-                      padding: "12px 24px",
-                      borderRadius: "30px",
-                      cursor: "pointer",
-                      fontWeight: "800",
-                      fontSize: "0.95rem",
-                      boxShadow: "0 4px 15px rgba(212, 175, 55, 0.2)",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px"
-                    }}
-                  >
-                    🌟 {locale === "ar" ? "مزامنة واستيراد تصميم Google Stitch الزمردي" : "Sync & Import Google Stitch Emerald Design"}
-                  </button>
-                  <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "8px" }}>
-                    {locale === "ar" 
-                      ? "يقوم هذا الإجراء باستيراد وتطبيق نمط المظهر الزمردي المظلم المعتمد في مشروع Google Stitch (Kassala University Digital Rebrand)."
-                      : "This imports and applies the dynamic dark emerald layout styles approved in the Google Stitch project."}
-                  </p>
-                </div>
+             {/* ---------------------------------------------------- */}
+             {/* 0. ANALYTICS OVERVIEW                                */}
+             {/* ---------------------------------------------------- */}
+             {activeTab === "overview" && (
+               <div className={styles.adminCard} style={{ gridColumn: "1 / -1", background: "var(--card-bg)" }}>
+                 <h3>📊 {locale === "ar" ? "لوحة الإحصائيات العامة وتحليلات الأداء" : "General Analytics & Performance Dashboard"}</h3>
+                 <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: "25px" }}>
+                   {locale === "ar" 
+                     ? "شاشة مراقبة حية لزيارات البوابة الإلكترونية ومعدلات التحول الرقمي وتفاعل المستخدمين."
+                     : "Live monitoring of portal visits, digital transformation rates, and user engagement."}
+                 </p>
 
-                <form onSubmit={handleSaveTheme}>
-                  
-                  {/* Primary Color Customizer */}
-                  <div style={{ marginBottom: "25px" }}>
-                    <h4>🟢 {locale === "ar" ? "اللون الأساسي للموقع (Primary Theme Color)" : "Primary Theme Color"}</h4>
-                    <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
-                      {primaryColorsPreset.map(col => (
-                        <button
-                          key={col.hex}
-                          type="button"
-                          onClick={() => setThemeForm({ ...themeForm, primaryColor: col.hex, primaryDark: col.dark })}
-                          style={{
-                            background: col.hex,
-                            color: "#FFFFFF",
-                            border: themeForm.primaryColor === col.hex ? "4px solid #D4AF37" : "1px solid #000000",
-                            padding: "10px 16px",
-                            borderRadius: "12px",
-                            cursor: "pointer",
-                            fontWeight: "700",
-                            fontSize: "0.85rem"
-                          }}
-                        >
-                          {col.name}
-                        </button>
-                      ))}
-                    </div>
-                    <div className={styles.formGroup} style={{ marginTop: "12px", width: "200px" }}>
-                      <label>{locale === "ar" ? "اختيار لون مخصص:" : "Or Custom Hex Code:"}</label>
-                      <input
-                        type="color"
-                        value={themeForm.primaryColor}
-                        onChange={e => setThemeForm({ ...themeForm, primaryColor: e.target.value, primaryDark: e.target.value })}
-                        style={{ height: "40px", width: "100%", cursor: "pointer" }}
-                      />
-                    </div>
-                  </div>
+                 {/* Stats Cards Row */}
+                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", marginBottom: "30px" }}>
+                   <div style={{ padding: "20px", background: "var(--platinum)", borderRadius: "14px", border: "1px solid var(--border-color)" }}>
+                     <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{locale === "ar" ? "الزيارات اليومية" : "Daily Visits"}</span>
+                     <h2 style={{ fontSize: "2rem", color: "var(--primary-dark)", margin: "5px 0" }}>1,482</h2>
+                     <span style={{ fontSize: "0.8rem", color: "#16a34a", fontWeight: "700" }}>↑ +15% {locale === "ar" ? "مقارنة بأمس" : "vs yesterday"}</span>
+                   </div>
+                   <div style={{ padding: "20px", background: "var(--platinum)", borderRadius: "14px", border: "1px solid var(--border-color)" }}>
+                     <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{locale === "ar" ? "طلبات التقديم الإلكتروني" : "Admissions Applications"}</span>
+                     <h2 style={{ fontSize: "2rem", color: "var(--primary-dark)", margin: "5px 0" }}>384</h2>
+                     <span style={{ fontSize: "0.8rem", color: "#16a34a", fontWeight: "700" }}>↑ +8% {locale === "ar" ? "هذا الأسبوع" : "this week"}</span>
+                   </div>
+                   <div style={{ padding: "20px", background: "var(--platinum)", borderRadius: "14px", border: "1px solid var(--border-color)" }}>
+                     <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{locale === "ar" ? "متوسط سرعة الاستجابة" : "LCP Speed Index"}</span>
+                     <h2 style={{ fontSize: "2rem", color: "var(--primary-dark)", margin: "5px 0" }}>1.1s</h2>
+                     <span style={{ fontSize: "0.8rem", color: "#16a34a", fontWeight: "700" }}>⚡ {locale === "ar" ? "أداء ممتاز جداً" : "Excellent Performance"}</span>
+                   </div>
+                   <div style={{ padding: "20px", background: "var(--platinum)", borderRadius: "14px", border: "1px solid var(--border-color)" }}>
+                     <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{locale === "ar" ? "نشاط الخدمات الإلكترونية" : "E-Services Activity"}</span>
+                     <h2 style={{ fontSize: "2rem", color: "var(--primary-dark)", margin: "5px 0" }}>92.4%</h2>
+                     <span style={{ fontSize: "0.8rem", color: "#16a34a", fontWeight: "700" }}>↑ +4.2% {locale === "ar" ? "معدل تشغيل" : "operational rate"}</span>
+                   </div>
+                 </div>
 
-                  {/* Accent Color Customizer */}
-                  <div style={{ marginBottom: "25px" }}>
-                    <h4>🟡 {locale === "ar" ? "اللون الثانوي المميز (Accent Color)" : "Accent Color"}</h4>
-                    <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
-                      {accentColorsPreset.map(col => (
-                        <button
-                          key={col.hex}
-                          type="button"
-                          onClick={() => setThemeForm({ ...themeForm, accentColor: col.hex })}
-                          style={{
-                            background: col.hex,
-                            color: "#000000",
-                            border: themeForm.accentColor === col.hex ? "4px solid #0D5C34" : "1px solid #718096",
-                            padding: "10px 16px",
-                            borderRadius: "12px",
-                            cursor: "pointer",
-                            fontWeight: "700",
-                            fontSize: "0.85rem"
-                          }}
-                        >
-                          {col.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                 {/* Charts Section */}
+                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "30px" }}>
+                   {/* Column 1: Visits Trend SVG Chart */}
+                   <div style={{ background: "var(--platinum)", padding: "24px", borderRadius: "16px", border: "1px solid var(--border-color)" }}>
+                     <h4 style={{ color: "var(--primary-dark)", marginBottom: "15px" }}>📈 {locale === "ar" ? "معدل الزيارات في الـ 7 أيام الماضية" : "Visits Trend - Last 7 Days"}</h4>
+                     
+                     <svg viewBox="0 0 500 200" style={{ width: "100%", height: "auto" }}>
+                       {/* Grid lines */}
+                       <line x1="40" y1="20" x2="480" y2="20" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="5,5" />
+                       <line x1="40" y1="70" x2="480" y2="70" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="5,5" />
+                       <line x1="40" y1="120" x2="480" y2="120" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="5,5" />
+                       <line x1="40" y1="170" x2="480" y2="170" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="5,5" />
+                       
+                       {/* Line path */}
+                       <path 
+                         d="M 50,150 L 120,130 L 190,145 L 260,80 L 330,95 L 400,60 L 470,40" 
+                         fill="none" 
+                         stroke="var(--primary)" 
+                         strokeWidth="4" 
+                         strokeLinecap="round"
+                         strokeLinejoin="round"
+                       />
+                       
+                       {/* Gradient under line */}
+                       <path 
+                         d="M 50,150 L 120,130 L 190,145 L 260,80 L 330,95 L 400,60 L 470,40 L 470,170 L 50,170 Z" 
+                         fill="url(#chartGrad)" 
+                         opacity="0.15"
+                       />
 
-                  {/* Typography Font Picker */}
-                  <div className={styles.formGroup} style={{ marginBottom: "25px", width: "300px" }}>
-                    <h4>✍️ {locale === "ar" ? "خط الكتابة العربي للموقع" : "Arabic Typography Font"}</h4>
-                    <select
-                      className={styles.selectField}
-                      value={themeForm.fontFamily}
-                      onChange={e => setThemeForm({ ...themeForm, fontFamily: e.target.value })}
-                    >
-                      <option value="Cairo">Cairo (خط هندسي حديث)</option>
-                      <option value="Tajawal">Tajawal (خط مقروء وناعم)</option>
-                      <option value="Almarai">Almarai (خط كتابي كلاسيكي)</option>
-                    </select>
-                  </div>
+                       <defs>
+                         <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                           <stop offset="0%" stopColor="var(--primary)" />
+                           <stop offset="100%" stopColor="transparent" />
+                         </linearGradient>
+                       </defs>
 
-                  {/* Visual Style Toggles */}
-                  <div style={{ marginBottom: "25px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-                    <div className={styles.formGroup} style={{ flexDirection: "row", alignItems: "center", gap: "12px" }}>
-                      <input
-                        type="checkbox"
-                        id="glowOrbs"
-                        checked={themeForm.glowOrbs !== false}
-                        onChange={e => setThemeForm({ ...themeForm, glowOrbs: e.target.checked })}
-                        style={{ width: "22px", height: "22px", cursor: "pointer" }}
-                      />
-                      <label htmlFor="glowOrbs" style={{ cursor: "pointer" }}>
-                        ✨ {locale === "ar" ? "تفعيل الكرات المضيئة الهلامية في الخلفية" : "Enable background glowing abstract orbs"}
-                      </label>
-                    </div>
+                       {/* Interactive points */}
+                       <circle cx="50" cy="150" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
+                       <circle cx="120" cy="130" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
+                       <circle cx="190" cy="145" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
+                       <circle cx="260" cy="80" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
+                       <circle cx="330" cy="95" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
+                       <circle cx="400" cy="60" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
+                       <circle cx="470" cy="40" r="5" fill="#d4af37" stroke="var(--primary)" strokeWidth="2" />
 
-                    <div className={styles.formGroup} style={{ flexDirection: "row", alignItems: "center", gap: "12px" }}>
-                      <input
-                        type="checkbox"
-                        id="cardGlow"
-                        checked={themeForm.cardGlow !== false}
-                        onChange={e => setThemeForm({ ...themeForm, cardGlow: e.target.checked })}
-                        style={{ width: "22px", height: "22px", cursor: "pointer" }}
-                      />
-                      <label htmlFor="cardGlow" style={{ cursor: "pointer" }}>
-                        💡 {locale === "ar" ? "تفعيل توهج الحدود الذهبي التفاعلي للبطاقات عند التمرير" : "Enable golden glow outline hover on cards"}
-                      </label>
-                    </div>
-                  </div>
+                       {/* X Axis Labels */}
+                       <text x="50" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "الأحد" : "Sun"}</text>
+                       <text x="120" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "الاثنين" : "Mon"}</text>
+                       <text x="190" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "الثلاثاء" : "Tue"}</text>
+                       <text x="260" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "الأربعاء" : "Wed"}</text>
+                       <text x="330" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "الخميس" : "Thu"}</text>
+                       <text x="400" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "الجمعة" : "Fri"}</text>
+                       <text x="470" y="190" fill="var(--text-muted)" fontSize="9" textAnchor="middle">{locale === "ar" ? "السبت" : "Sat"}</text>
+                     </svg>
+                   </div>
 
-                  <button type="submit" className={styles.submitBtn}>{locale === "ar" ? "حفظ المظهر وتثبيت التعديلات" : "Apply & Save Theme Styling"}</button>
-                </form>
-              </div>
-            )}
+                   {/* Column 2: Top E-Services Usage progress bars */}
+                   <div style={{ background: "var(--platinum)", padding: "24px", borderRadius: "16px", border: "1px solid var(--border-color)" }}>
+                     <h4 style={{ color: "var(--primary-dark)", marginBottom: "20px" }}>🌟 {locale === "ar" ? "الخدمات الإلكترونية الأكثر نشاطاً" : "Most Active E-Services"}</h4>
+                     
+                     <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+                       <div>
+                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", fontSize: "0.85rem", fontWeight: "700", color: "var(--foreground)" }}>
+                           <span>{locale === "ar" ? "نظام التعليم الإلكتروني (Moodle)" : "E-Learning (Moodle)"}</span>
+                           <span>82%</span>
+                         </div>
+                         <div style={{ height: "10px", background: "var(--border-color)", borderRadius: "10px", overflow: "hidden" }}>
+                           <div style={{ height: "100%", width: "82%", background: "var(--primary)", borderRadius: "10px" }}></div>
+                         </div>
+                       </div>
+
+                       <div>
+                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", fontSize: "0.85rem", fontWeight: "700", color: "var(--foreground)" }}>
+                           <span>{locale === "ar" ? "بوابة التقديم الإلكتروني للطلاب" : "Online Application Portal"}</span>
+                           <span>71%</span>
+                         </div>
+                         <div style={{ height: "10px", background: "var(--border-color)", borderRadius: "10px", overflow: "hidden" }}>
+                            <div style={{ height: "100%", width: "71%", background: "var(--primary)", borderRadius: "10px" }}></div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             )}
+
 
             {/* ---------------------------------------------------- */}
             {/* HERO SLIDER EDITOR                                   */}

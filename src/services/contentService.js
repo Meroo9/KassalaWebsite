@@ -188,8 +188,14 @@ export const contentService = {
     }
 
     const colleges = loadData(KEYS.COLLEGES, defaultColleges);
-    if (filterId === "all") return colleges;
-    return colleges.filter(c => c.category === filterId);
+    // Sync images from defaultColleges to ensure updated local images display
+    const syncedColleges = colleges.map(col => {
+      const matched = defaultColleges.find(d => d.id === col.id);
+      return matched ? { ...col, image: matched.image } : col;
+    });
+
+    if (filterId === "all") return syncedColleges;
+    return syncedColleges.filter(c => c.category === filterId);
   },
 
   saveColleges(colleges) {

@@ -1,0 +1,7 @@
+بما أن الموقع الجامعي غالبًا سيحتوي على CMS، حسابات، نماذج تواصل، وربما لاحقًا خدمات رقمية، فالفئات الأكثر صلة من OWASP Top 10:2025 تشمل:- Broken Access Control- Security Misconfiguration- Software Supply Chain Failures- Cryptographic Failures- Injection- Authentication Failures- Logging and Alerting Failures Source
+
+إمكانية الوصول قد تكون سلاحك السريمعظم المتسابقين سيركزون على الألوان والأنيميشن. أنت اكسبهم في الاحتراف.معايير WCAG 2.2 تنظّم الوصول تحت 4 مبادئ: قابل للإدراك، قابل للتشغيل، قابل للفهم، متين، ومستوى AA هو المستوى العملي الشائع استهدافه للمواقع العامة. Sourceوفي WCAG 2.2 توجد إضافات مهمة جدًا لموقع جامعة:- حجم أهداف اللمس لا يقل عن 24×24- العنصر الذي يحصل على focus لا يختفي خلف الهيدر الثابت- النماذج لا تطلب من المستخدم إدخال نفس البيانات مرة أخرى بلا داع- تسجيل الدخول لا يعتمد على اختبارات مرهقة إدراكيًا فقط
+
+الأداء لازم يكون نقطة قوة واضحة عندكجوجل تعتبر Core Web Vitals من إشارات جودة تجربة المستخدم، وتوصي بتحقيق نتائج جيدة فيها، خصوصًا:- LCP أقل من 2.5 ثانية- INP أقل من 200 مللي ثانية- CLS أقل من 0.1 Sourceفبدل ما تقول “الموقع سريع”، اذكر أرقامًا مستهدفة في عرضك. واشتغل على:- صور WebP/AVIF- lazy loading- تقليل JavaScript غير الضروري- caching- font loading مضبوط- SSR/SSG لو مناسب
+
+تحسين الأداء- ضغط الصور- تحسين الخطوط- lazy loading- تحسين Core Web Vitals قدر الإمكان- تحسين SEO الأساسي: - titles - meta descriptions - alt text - headings - URLs- تحسين إمكانية الوصول: - contrast - keyboard navigation - focus states - form labels - target sizes- مراجعة الأمان: - validation - sanitization

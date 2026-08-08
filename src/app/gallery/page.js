@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import { contentService } from "../../services/contentService";
 import styles from "./gallery.module.css";
@@ -67,9 +68,12 @@ export default function Gallery() {
                 className={styles.galleryItem}
                 onClick={() => setLightboxItem(item)}
               >
-                <img
+                <Image
                   src={item.image}
                   alt={locale === "ar" ? item.arCaption : item.enCaption}
+                  width={1200}
+                  height={800}
+                  unoptimized
                   loading="lazy"
                   className={styles.galleryImg}
                 />
@@ -101,9 +105,12 @@ export default function Gallery() {
             >
               &times;
             </button>
-            <img
+            <Image
               src={lightboxItem.image}
               alt="Expanded view"
+              width={1600}
+              height={1000}
+              unoptimized
               className={styles.lightboxImg}
             />
             <div className={styles.caption}>

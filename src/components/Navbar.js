@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/LanguageContext";
 import styles from "./Navbar.module.css";
@@ -10,9 +11,18 @@ export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { locale, toggleLocale, t } = useLanguage();
   const pathname = usePathname();
+
+  const isAr = locale === "ar";
+
+  const notifications = [
+    { id: 1, titleAr: "فتح باب التقديم الإلكتروني للطلاب المستجدين", titleEn: "Admissions Open for New Applicants", date: "2026-08-01", type: "urgent" },
+    { id: 2, titleAr: "بداية التسجيل للفصل الدراسي الأول 2026/2027", titleEn: "Semester 1 Registration Starts", date: "2026-09-15", type: "info" },
+    { id: 3, titleAr: "جدول امتحانات منتصف الفصل الدراسي", titleEn: "Midterm Exams Schedule Released", date: "2026-11-10", type: "info" }
+  ];
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -37,6 +47,7 @@ export default function Navbar() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDrawerOpen(false);
+      setIsNotifOpen(false);
     }, 0);
     return () => clearTimeout(timer);
   }, [pathname]);
@@ -67,9 +78,12 @@ export default function Navbar() {
           
           {/* Logo Area */}
           <Link href="/" className={styles.logoArea}>
-            <img
+            <Image
               src="https://kassalauni.edu.sd/nw/wp-content/uploads/2022/10/cropped-Kassalauni_logo-removebg-preview.png"
               alt="Kassala University Logo"
+              width={160}
+              height={80}
+              unoptimized
               className={styles.logoImage}
               onError={(e) => {
                 e.target.style.display = "none";
@@ -101,8 +115,8 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Action Area (Lang Button + Sidebar Toggle) */}
-          <div className={styles.actionArea}>
+          {/* Action Area (Search + Notifs + Lang + Drawer Toggle) */}
+          <div className={styles.actionArea} style={{ position: "relative" }}>
             
             {/* Animated Search Box */}
             <form onSubmit={handleSearchSubmit} className={`${styles.searchContainer} ${isSearchOpen ? styles.searchActive : ""}`}>
@@ -123,11 +137,81 @@ export default function Navbar() {
               </button>
             </form>
 
+            {/* Notification Bell Center Icon */}
+            <button
+              onClick={() => setIsNotifOpen(!isNotifOpen)}
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                border: "none",
+                borderRadius: "50%",
+                width: "38px",
+                height: "38px",
+                color: "#fff",
+                cursor: "pointer",
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+              aria-label="Notifications"
+            >
+              🔔
+              <span style={{
+                position: "absolute",
+                top: "-2px",
+                right: "-2px",
+                background: "#e53935",
+                color: "#fff",
+                borderRadius: "50%",
+                width: "16px",
+                height: "16px",
+                fontSize: "10px",
+                fontWeight: "bold",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}>
+                {notifications.length}
+              </span>
+            </button>
+
+            {/* Notification Popover Box */}
+            {isNotifOpen && (
+              <div style={{
+                position: "absolute",
+                top: "50px",
+                left: isAr ? "0" : "auto",
+                right: isAr ? "auto" : "0",
+                width: "300px",
+                background: "#121b2d",
+                border: "1px solid rgba(255,255,255,0.15)",
+                borderRadius: "12px",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+                padding: "16px",
+                zIndex: 10000,
+                color: "#fff"
+              }}>
+                <strong style={{ display: "block", fontSize: "14px", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "8px", marginBottom: "10px" }}>
+                  📣 {isAr ? "التنبيهات والمواعيد الأكاديمية" : "Academic Notifications"}
+                </strong>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {notifications.map((n) => (
+                    <div key={n.id} style={{ background: "rgba(255,255,255,0.05)", padding: "10px", borderRadius: "8px", borderRight: isAr ? "3px solid #64b5f6" : "none", borderLeft: !isAr ? "3px solid #64b5f6" : "none" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "bold", display: "block" }}>
+                        {isAr ? n.titleAr : n.titleEn}
+                      </span>
+                      <small style={{ fontSize: "10px", color: "rgba(255,255,255,0.6)" }}>📅 {n.date}</small>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <button onClick={toggleLocale} className={styles.langBtn} aria-label="Toggle Language">
               🌐 {locale === "ar" ? "English" : "العربية"}
             </button>
 
-            {/* Sidebar toggle button (Visible on all sizes to open drawer with remaining links) */}
+            {/* Sidebar toggle button */}
             <div
               className={styles.drawerToggle}
               onClick={() => setIsDrawerOpen(true)}
@@ -141,10 +225,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ---------------------------------------------------- */}
-      {/* Sidebar Drawer Layout Component                     */}
-      {/* ---------------------------------------------------- */}
-      
       {/* Backdrop overlay */}
       <div
         className={`${styles.drawerOverlay} ${isDrawerOpen ? styles.drawerOverlayActive : ""}`}
@@ -187,7 +267,7 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Secondary Links (Visible on all sizes inside the drawer) */}
+          {/* Secondary Links */}
           <div>
             <div className={styles.drawerSectionTitle} style={{ marginTop: "10px" }}>
               {locale === "ar" ? "أقسام إضافية" : "More Sections"}

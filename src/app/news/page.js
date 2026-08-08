@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import fallbackData from "../../data/fallbackData.json";
 import styles from "./news.module.css";
@@ -90,7 +91,7 @@ export default function News() {
                     onClick={() => setActivePost(item)}
                   >
                     <div className={styles.imgWrapper}>
-                      <img src={item.image} alt="News thumbnail" className={styles.newsImg} />
+                      <Image src={item.image} alt="News thumbnail" width={1200} height={800} unoptimized className={styles.newsImg} />
                     </div>
                     <div className={styles.cardBody}>
                       <span className={styles.date}>{t("news_published_at")}{item.date}</span>
@@ -122,7 +123,7 @@ export default function News() {
             >
               &times;
             </button>
-            <img src={activePost.image} alt="Full news image" className={styles.modalImg} />
+            <Image src={activePost.image} alt="Full news image" width={1600} height={1000} unoptimized className={styles.modalImg} />
             <div className={styles.modalBody}>
               <span className={styles.modalDate}>
                 {t("news_published_at")}{activePost.date}

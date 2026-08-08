@@ -2,11 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
+import { useUserRole, ROLES } from "../context/UserRoleContext";
 import { contentService } from "../services/contentService";
 import fallbackData from "../data/fallbackData.json";
 import styles from "./page.module.css";
 import TechIcon from "../components/TechIcon";
+import AnimatedStatsCard from "../components/AnimatedStatsCard";
 
 function AnimatedNumber({ value }) {
   const [count, setCount] = useState(0);
@@ -46,6 +49,7 @@ function AnimatedNumber({ value }) {
 
 export default function Home() {
   const { locale, t } = useLanguage();
+  const { role, changeRole } = useUserRole();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
@@ -157,6 +161,42 @@ export default function Home() {
     window.location.href = `/services?q=${encodeURIComponent(searchQuery)}`;
   };
 
+  const getRoleFilteredServices = () => {
+    if (role === ROLES.NEW_STUDENT) {
+      return [
+        { id: "adm_1", arTitle: "التقديم والقبول الإلكتروني", enTitle: "Online Admissions", arDesc: "خطوات التقديم الإلكتروني للطلاب الجدد", enDesc: "Application steps for new applicants", icon: "portal", link: "/admissions" },
+        { id: "adm_2", arTitle: "حاسبة نسبة الاستيفاء", enTitle: "Eligibility Cutoff Calculator", arDesc: "فحص استيفاء شروط القبول للكليات", enDesc: "Calculate eligible faculty cutoffs", icon: "support", link: "/admissions" },
+        { id: "adm_3", arTitle: "دليل الكليات والتخصصات", enTitle: "Colleges Guide", arDesc: "استكشاف التخصصات والبرامج المتاحة", enDesc: "Explore academic majors & degrees", icon: "affairs", link: "/colleges" },
+        { id: "adm_4", arTitle: "التقويم الأكاديمي والامتحانات", enTitle: "Academic Calendar", arDesc: "مواعيد التسجيل والبدء للعام الدراسي", enDesc: "Semester dates & registration", icon: "visitors", link: "/admissions" },
+      ];
+    }
+    if (role === ROLES.CURRENT_STUDENT) {
+      return [
+        { id: "cur_1", arTitle: "منصة التعلم الإلكتروني Moodle", enTitle: "Moodle LMS Portal", arDesc: "تحميل المقررات والمحاضرات والواجبات", enDesc: "Access courses, lectures & assignments", icon: "moodle", link: "https://moodle.kassalauni.edu.sd" },
+        { id: "cur_2", arTitle: "نتائج الامتحانات والشهادات", enTitle: "Exams & Results", arDesc: "استعلام نتائج الفصول والسجل الأكاديمي", enDesc: "Check semester grades & transcript", icon: "portal", link: "/services" },
+        { id: "cur_3", arTitle: "شؤون الطلاب والبطاقة الجامعية", enTitle: "Student Affairs", arDesc: "خدمات الهوية الطلابية والأنشطة", enDesc: "Student ID cards & campus activities", icon: "affairs", link: "/services" },
+        { id: "cur_4", arTitle: "المكتبة الرقمية والمراجع", enTitle: "Digital Library", arDesc: "استعارة وتصفح الدوريات الموثقة", enDesc: "Access digital books & research paper", icon: "library", link: "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Islamia.pdf" },
+      ];
+    }
+    if (role === ROLES.FACULTY) {
+      return [
+        { id: "fac_1", arTitle: "بوابة أعضاء هيئة التدريس", enTitle: "Faculty Staff Portal", arDesc: "رصد النتائج الجداول والأعمال الأكاديمية", enDesc: "Enter grades, view schedules & portal", icon: "portal", link: "/portal" },
+        { id: "fac_2", arTitle: "البريد الجامعي الرسمي", enTitle: "University Webmail", arDesc: "الدخول لمنظومة المراسلات الأكاديمية", enDesc: "Access official university webmail", icon: "email", link: "https://webmail.kassalauni.edu.sd" },
+        { id: "fac_3", arTitle: "أمانة البحث العلمي", enTitle: "Deanship of Scientific Research", arDesc: "تقديم المشاريع والتمويل البحثي", enDesc: "Submit research papers & grants", icon: "support", link: "/research" },
+        { id: "fac_4", arTitle: "إصدارات مجلة القلزم المحكمة", enTitle: "Al-Qalzam Journal Issues", arDesc: "تحميل الأعداد والنشر بالمجلة الأكاديمية", enDesc: "Download indexed journal issues", icon: "library", link: "/research" },
+      ];
+    }
+    // Default: ALL
+    return services.length > 0 ? services.slice(0, 4) : [
+      { id: "all_1", arTitle: "دليل الكليات ومعاهد الجامعة", enTitle: "Colleges Directory", arDesc: "استكشاف كليات جامعة كسلا المتخصصة", enDesc: "Explore all university faculties", icon: "affairs", link: "/colleges" },
+      { id: "all_2", arTitle: "بوابة الخدمات الإلكترونية", enTitle: "University Services Portal", arDesc: "الخدمات الطلابية والأكاديمية المباشرة", enDesc: "Direct student & academic services", icon: "support", link: "/services" },
+      { id: "all_3", arTitle: "البحث العلمي والمجلات", enTitle: "Scientific Research & Journals", arDesc: "المرجع والمستودع الرقمي الجامعي", enDesc: "Academic repository & journals", icon: "library", link: "/research" },
+      { id: "all_4", arTitle: "أخبار وفعاليات الجامعة", enTitle: "News & Events", arDesc: "التغطية الإخبارية والأنشطة الرسمية", enDesc: "Latest university coverage", icon: "visitors", link: "/news" },
+    ];
+  };
+
+  const activeServices = getRoleFilteredServices();
+
   return (
     <div style={{ flex: 1 }}>
       {/* 1. Hero Image Slider */}
@@ -168,9 +208,12 @@ export default function Home() {
               index === currentSlide ? styles.activeSlide : ""
             }`}
           >
-            <img
+            <Image
               src={slide.image}
               alt="Slider Background"
+              width={1920}
+              height={1080}
+              unoptimized
               className={styles.slideImage}
             />
             <div className="container">
@@ -226,10 +269,12 @@ export default function Home() {
       </section>
 
       {/* Quick Portals Grid Section */}
+
+      {/* Quick Portals Grid Section (Role-Filtered) */}
       <section className={styles.quickServicesSection}>
         <div className="container animate-fade-in">
           <div className={styles.quickServicesGrid}>
-            {services.slice(0, 4).map((service) => (
+            {activeServices.map((service) => (
               <a
                 key={service.id}
                 href={service.link}
@@ -252,8 +297,11 @@ export default function Home() {
       <section className={`${styles.welcomeSection} section-padding`}>
         <div className={`${styles.welcomeGrid} container`}>
           <div className={styles.rectorCard}>
-            <img
+            <Image
               src={rector.image}
+              width={800}
+              height={1000}
+              unoptimized
               alt={locale === "ar" ? "صورة مديرة الجامعة أ.د. أماني عبد المعروف بشير" : "Prof. Dr. Amany Abdelmarouf - Rector of Kassala University"}
               loading="lazy"
               className={styles.rectorImage}
@@ -272,17 +320,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Stats Section (Emerald & Gold) */}
-      <section className={`${styles.statsSection} emerald-gold-gradient`}>
+      {/* 3. Stats Section (Emerald & Gold & Motion Graphics) */}
+      <section className={`${styles.statsSection} emerald-gold-gradient`} suppressHydrationWarning>
         <div className="container">
           <div className={styles.statsGrid}>
-            {fallbackData.stats.map((stat) => (
-              <div key={stat.id} className={styles.statItem}>
-                <div className={styles.statNumber}>
-                  <AnimatedNumber value={stat.number} />
-                </div>
-                <div className={styles.statLabel}>{t(stat.labelKey)}</div>
-              </div>
+            {fallbackData.stats.map((stat, idx) => (
+              <AnimatedStatsCard
+                key={stat.id}
+                stat={stat}
+                labelText={t(stat.labelKey)}
+                index={idx}
+              />
             ))}
           </div>
         </div>
@@ -311,7 +359,7 @@ export default function Home() {
                 {news.slice(0, 3).map((item) => (
                   <article key={item.id} className={`${styles.newsCard} card`}>
                     <div className={styles.newsImageWrapper}>
-                      <img src={item.image} alt={locale === "ar" ? item.arTitle : item.enTitle} loading="lazy" className={styles.newsImage} />
+                      <Image src={item.image} alt={locale === "ar" ? item.arTitle : item.enTitle} width={1200} height={800} unoptimized loading="lazy" className={styles.newsImage} />
                     </div>
                     <span className={styles.newsDate}>{t("news_published_at")}{item.date}</span>
                     <h3>{locale === "ar" ? item.arTitle : item.enTitle}</h3>
@@ -338,7 +386,7 @@ export default function Home() {
           <div className={styles.collegesGrid}>
             {featuredColleges.slice(0, 3).map((college) => (
               <div key={college.id} className={`${styles.collegeCard} card`}>
-                <img src={college.image} alt={locale === "ar" ? college.arName : college.enName} loading="lazy" className={styles.collegeImg} />
+                <Image src={college.image} alt={locale === "ar" ? college.arName : college.enName} width={1200} height={800} unoptimized loading="lazy" className={styles.collegeImg} />
                 <div className={styles.collegeBody}>
                   <h3>{locale === "ar" ? college.arName : college.enName}</h3>
                   <p>{locale === "ar" ? college.arDesc : college.enDesc}</p>

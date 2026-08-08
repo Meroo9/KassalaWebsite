@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import { contentService } from "../../services/contentService";
 import styles from "./colleges.module.css";
@@ -62,9 +63,12 @@ export default function Colleges() {
             {filteredColleges.map((college) => (
               <div key={college.id} className={styles.collegeCard} id={college.id}>
                 <div className={styles.cardHeader}>
-                  <img
+                  <Image
                     src={college.image}
                     alt={locale === "ar" ? college.arName : college.enName}
+                    width={1200}
+                    height={800}
+                    unoptimized
                     loading="lazy"
                     className={styles.collegeImg}
                   />
