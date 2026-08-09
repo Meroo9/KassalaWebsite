@@ -17,9 +17,13 @@ export default function News() {
     const fetchNews = async () => {
       try {
         setLoading(true);
-        const res = await fetch("https://kassalauni.edu.sd/nw/wp-json/wp/v2/posts?per_page=12");
+        const res = await fetch("/api/news?per_page=12");
         if (!res.ok) throw new Error("API failed");
         const data = await res.json();
+
+        if (!data || !Array.isArray(data) || data.length === 0) {
+          throw new Error("No live news returned, using local fallback");
+        }
         
         const mappedNews = data.map((post) => {
           const defaultImage = fallbackData.news[0].image;

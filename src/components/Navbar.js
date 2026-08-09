@@ -91,15 +91,12 @@ export default function Navbar() {
           {/* Logo Area */}
           <Link href="/" className={styles.logoArea}>
             <Image
-              src="https://kassalauni.edu.sd/nw/wp-content/uploads/2022/10/cropped-Kassalauni_logo-removebg-preview.png"
+              src="/images/about-uni.png"
               alt="Kassala University Logo"
               width={160}
               height={80}
-              unoptimized
               className={styles.logoImage}
-              onError={(e) => {
-                e.target.style.display = "none";
-              }}
+              style={{ objectFit: "contain" }}
             />
             <div className={styles.logoText}>
               <span className={styles.title}>

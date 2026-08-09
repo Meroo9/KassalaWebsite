@@ -10,7 +10,7 @@ export const metadata = {
   title: "جامعة كسلا | University of Kassala",
   description: "الموقع الرسمي لجامعة كسلا - السودان - منارة المعرفة والبحث العلمي والتنمية المستدامة في شرق السودان.",
   icons: {
-    icon: "https://kassalauni.edu.sd/nw/wp-content/uploads/2018/08/logo.png",
+    icon: "/images/about-uni.png",
   },
 };
 
