@@ -47,24 +47,12 @@ function ServicesContent() {
   ];
 
   let activeServices = contentService.getServices(activeTab);
+  let globalSearchResults = null;
   
-  // Apply search filter if query is present
+  // Apply comprehensive site search filter if query is present
   if (query) {
-    const allServices = [
-      ...contentService.getServices("students"),
-      ...contentService.getServices("faculty"),
-      ...contentService.getServices("staff"),
-      ...contentService.getServices("visitors")
-    ];
-    
-    // De-duplicate by ID
-    const uniqueServices = Array.from(new Map(allServices.map(s => [s.id, s])).values());
-    
-    activeServices = uniqueServices.filter(service => {
-      const title = service.titleKey ? t(service.titleKey) : (locale === "ar" ? service.arTitle : service.enTitle);
-      const desc = service.descKey ? t(service.descKey) : (locale === "ar" ? service.arDesc : service.enDesc);
-      return title.toLowerCase().includes(query) || desc.toLowerCase().includes(query);
-    });
+    globalSearchResults = contentService.searchSite(query);
+    activeServices = globalSearchResults.services;
   }
 
   const handleSearchSubmit = (e) => {
@@ -88,12 +76,14 @@ function ServicesContent() {
           {/* Header Section */}
           <header className={styles.pageHeader}>
             <h1 className={styles.pageTitle}>
-              {locale === "ar" ? "بوابة الخدمات الإلكترونية" : "Electronic Services Portal"}
+              {query 
+                ? (locale === "ar" ? `نتائج البحث عن: "${query}"` : `Search Results for: "${query}"`)
+                : (locale === "ar" ? "بوابة الخدمات الإلكترونية والبحث الموحد" : "Electronic Services & Universal Search Portal")}
             </h1>
             <p className={styles.pageDesc}>
               {locale === "ar" 
-                ? "منصة رقمية متكاملة لخدمة منسوبي جامعة كسلا، تتيح وصولاً سريعاً وآمناً لكافة الخدمات الأكاديمية والإدارية."
-                : "A unified digital platform for Kassala University affiliates, offering secure, quick access to academic and administrative systems."}
+                ? "منصة رقمية متكاملة تتيح الوصول السريع لكافة الخدمات، الكليات، الأخبار، والمجلات العلمية بجامعة كسلا."
+                : "A unified digital portal for fast access to services, colleges, news, and academic journals across University of Kassala."}
             </p>
           </header>
 
@@ -106,7 +96,7 @@ function ServicesContent() {
               </svg>
               <input
                 type="text"
-                placeholder={locale === "ar" ? "ابحث عن خدمة (مثال: تسجيل المقررات، استخراج شهادة...)" : "Search for a service (e.g. course registration, certificate...)"}
+                placeholder={locale === "ar" ? "ابحث عن كلية، تخصص، خدمة، خبر، أو مجلة..." : "Search for a college, major, service, news, or paper..."}
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 className={styles.searchInput}
@@ -134,16 +124,18 @@ function ServicesContent() {
             </div>
           )}
 
-          {/* Bento Grid Services */}
+          {/* 1. Bento Grid Services */}
+          <h2 style={{ fontSize: "1.3rem", color: "var(--accent)", marginBottom: "16px", marginTop: query ? "20px" : "0" }}>
+            🛠️ {locale === "ar" ? "الخدمات المنظومية" : "Systemic Services"} {query && `(${activeServices.length})`}
+          </h2>
+
           <div className={styles.servicesGrid}>
             {activeServices.length > 0 ? (
               activeServices.map((service, index) => {
                 const title = service.titleKey ? t(service.titleKey) : (locale === "ar" ? service.arTitle : service.enTitle);
                 const desc = service.descKey ? t(service.descKey) : (locale === "ar" ? service.arDesc : service.enDesc);
 
-                // Highlight second card (index === 1) as the Stitch most requested card
                 const isHighlighted = index === 1;
-                // Make 4th card (index === 3) span 2 columns and display horizontally as in Stitch bento grid
                 const isBentoSpan = index === 3;
 
                 return (
@@ -157,7 +149,6 @@ function ServicesContent() {
                     {isHighlighted && <div className={styles.highlightedBar}></div>}
                     
                     {isBentoSpan ? (
-                      // Bento Span 2-Column Horizontal View
                       <div className={styles.horizontalLeft}>
                         <div className={styles.cardHeader}>
                           <div className={styles.iconWrapper}>
@@ -178,7 +169,6 @@ function ServicesContent() {
                         </div>
                       </div>
                     ) : (
-                      // Normal Column View
                       <>
                         <div className={styles.cardHeader}>
                           <div className={`${styles.iconWrapper} ${isHighlighted ? styles.iconWrapperHighlighted : ""}`}>
@@ -223,11 +213,88 @@ function ServicesContent() {
                 );
               })
             ) : (
-              <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "var(--text-muted)", fontWeight: "600" }}>
-                {locale === "ar" ? "لا توجد خدمات مطابقة لبحثك حالياً." : "No matching services found."}
+              <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "20px", color: "var(--text-muted)" }}>
+                {locale === "ar" ? "لا توجد خدمات مطابقة لتعبيرات البحث." : "No matching services found."}
               </div>
             )}
           </div>
+
+          {/* 2. Colleges Match Section */}
+          {query && globalSearchResults && globalSearchResults.colleges.length > 0 && (
+            <div style={{ marginTop: "40px" }}>
+              <h2 style={{ fontSize: "1.3rem", color: "var(--accent)", marginBottom: "16px" }}>
+                🏛️ {locale === "ar" ? "الكليات والمعاهد المطابقة" : "Matching Colleges"} ({globalSearchResults.colleges.length})
+              </h2>
+              <div className={styles.servicesGrid}>
+                {globalSearchResults.colleges.map((col) => (
+                  <a key={col.id} href="/colleges" className={styles.serviceCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.iconWrapper}>
+                        <TechIcon type="academic" size={32} />
+                      </div>
+                    </div>
+                    <h3>{locale === "ar" ? col.arName : col.enName}</h3>
+                    <p>{locale === "ar" ? col.arDesc : col.enDesc}</p>
+                    <div className={styles.cardFooter}>
+                      <span>{locale === "ar" ? "استكشف الكلية" : "Explore College"}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 3. Research & Al-Qalzam Issues Match Section */}
+          {query && globalSearchResults && globalSearchResults.research.length > 0 && (
+            <div style={{ marginTop: "40px" }}>
+              <h2 style={{ fontSize: "1.3rem", color: "var(--accent)", marginBottom: "16px" }}>
+                📚 {locale === "ar" ? "أعداد مجلة القلزم والبحوث" : "Research & Journal Issues"} ({globalSearchResults.research.length})
+              </h2>
+              <div className={styles.servicesGrid}>
+                {globalSearchResults.research.map((paper) => (
+                  <a key={paper.num} href={paper.link} target="_blank" rel="noopener noreferrer" className={styles.serviceCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.iconWrapper}>
+                        <TechIcon type="library" size={32} />
+                      </div>
+                      <span className={styles.badge}>{locale === "ar" ? `العدد ${paper.num}` : `Issue ${paper.num}`}</span>
+                    </div>
+                    <h3>{locale === "ar" ? paper.arSub : paper.enSub}</h3>
+                    <p>{locale === "ar" ? paper.arName : paper.enName}</p>
+                    <div className={styles.cardFooter}>
+                      <span>{locale === "ar" ? "تحميل العدد PDF" : "Download Issue PDF"}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 4. News Match Section */}
+          {query && globalSearchResults && globalSearchResults.news.length > 0 && (
+            <div style={{ marginTop: "40px" }}>
+              <h2 style={{ fontSize: "1.3rem", color: "var(--accent)", marginBottom: "16px" }}>
+                📰 {locale === "ar" ? "الأخبار والفعاليات" : "Matching News"} ({globalSearchResults.news.length})
+              </h2>
+              <div className={styles.servicesGrid}>
+                {globalSearchResults.news.map((item) => (
+                  <a key={item.id} href="/news" className={styles.serviceCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.iconWrapper}>
+                        <TechIcon type="moodle" size={32} />
+                      </div>
+                      <span className={styles.badge}>{item.date}</span>
+                    </div>
+                    <h3>{locale === "ar" ? item.arTitle : item.enTitle}</h3>
+                    <p>{locale === "ar" ? item.arExcerpt : item.enExcerpt}</p>
+                    <div className={styles.cardFooter}>
+                      <span>{locale === "ar" ? "قراءة الخبر" : "Read Article"}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
         </div>
       </main>
