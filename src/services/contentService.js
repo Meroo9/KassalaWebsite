@@ -52,8 +52,8 @@ export const contentService = {
     const defaultTheme = {
       primaryColor: "#0d5c34", // Emerald Green
       primaryDark: "#053b1e", // Dark Void Green
-      accentColor: "#e9c349", // Stitch Gold
-      fontFamily: "Tajawal", // Stitch Headline Font
+      accentColor: "#d4af37", // Stitch Gold
+      fontFamily: "Helvetica", // Professional Helvetica Font
       glowOrbs: true,
       cardGlow: true
     };
