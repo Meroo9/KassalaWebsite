@@ -10,7 +10,8 @@ const KEYS = {
   RECTOR: "kassala_custom_rector",
   CONTACT: "kassala_custom_contact",
   RESEARCH: "kassala_custom_research",
-  THEME: "kassala_theme_config"
+  THEME: "kassala_theme_config",
+  CUSTOM_PAGES: "kassala_custom_pages"
 };
 
 const isClient = typeof window !== "undefined";
@@ -333,6 +334,79 @@ export const contentService = {
 
   saveContactSettings(settings) {
     return saveData(KEYS.CONTACT, settings);
+  },
+
+  // ----------------------------------------------------
+  // 10. Dynamic Custom Pages & Conferences Manager
+  // ----------------------------------------------------
+  getCustomPages(onlyActive = false) {
+    const defaultPages = [
+      {
+        id: "page_ai_conf_2026",
+        slug: "ai-conference-2026",
+        arTitle: "مؤتمر الذكاء الاصطناعي والتحول الرقمي 2026",
+        enTitle: "AI & Digital Transformation Conference 2026",
+        arSubtitle: "المؤتمر العلمي الدولي الأول بجامعة كسلا لشراكات المستقبل التقني",
+        enSubtitle: "1st International Scientific Conference for Future Tech Partnerships",
+        location: "main", // "main" (Header Navbar) or "secondary" (Drawer)
+        active: true,
+        expiryDate: "2026-12-31",
+        bannerImage: "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+        arContent: "يسر جامعة كسلا الإعلان عن انطلاق المؤتمر الدولي الأول للذكاء الاصطناعي والتحول الرقمي، والذي يجمع نخبة من المتحدثين والباحثين لبحث تطبيقات الذكاء الاصطناعي في التعليم الجامعي والتنمية الاقتصادية بشرق السودان.",
+        enContent: "University of Kassala is honored to announce the 1st International AI & Digital Transformation Conference, bringing together top speakers and researchers to discuss AI applications in higher education and economic development.",
+        agenda: [
+          { time: "09:00 AM", arTopic: "الجلسة الافتتاحية وكلمة مدير الجامعة", enTopic: "Opening Ceremony & Rector Speech" },
+          { time: "10:30 AM", arTopic: "ورقة عمل: الذكاء الاصطناعي في خدمة التنمية المحلية", enTopic: "Keynote: AI for Regional Development" },
+          { time: "01:00 PM", arTopic: "معرض الابتكارات والشركات الناشئة", enTopic: "Innovation & Startup Exhibition" }
+        ],
+        pdfLink: "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Islamia.pdf",
+        registrationLink: "/admissions"
+      }
+    ];
+
+    const pages = loadData(KEYS.CUSTOM_PAGES, defaultPages);
+    if (!onlyActive) return pages;
+
+    const today = new Date().toISOString().split("T")[0];
+    return pages.filter(p => p.active && (!p.expiryDate || p.expiryDate >= today));
+  },
+
+  saveCustomPages(pages) {
+    const success = saveData(KEYS.CUSTOM_PAGES, pages);
+    if (success && isClient) {
+      window.dispatchEvent(new Event("storage"));
+    }
+    return success;
+  },
+
+  addCustomPage(page) {
+    const pages = this.getCustomPages(false);
+    const newPage = {
+      ...page,
+      id: page.id || `page_${Date.now()}`,
+      slug: page.slug ? page.slug.trim().toLowerCase().replace(/\s+/g, "-") : `page-${Date.now()}`,
+      active: page.active !== undefined ? page.active : true
+    };
+    pages.push(newPage);
+    return this.saveCustomPages(pages);
+  },
+
+  updateCustomPage(updatedPage) {
+    const pages = this.getCustomPages(false);
+    const newPages = pages.map(p => p.id === updatedPage.id ? { ...p, ...updatedPage } : p);
+    return this.saveCustomPages(newPages);
+  },
+
+  deleteCustomPage(id) {
+    const pages = this.getCustomPages(false);
+    const filtered = pages.filter(p => p.id !== id);
+    return this.saveCustomPages(filtered);
+  },
+
+  getPageBySlug(slug) {
+    if (!slug) return null;
+    const pages = this.getCustomPages(false);
+    return pages.find(p => p.slug === slug.toLowerCase()) || null;
   },
 
   // ----------------------------------------------------

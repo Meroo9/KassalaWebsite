@@ -26,6 +26,7 @@ export default function AdminDashboard() {
   const [newsList, setNewsList] = useState([]);
   const [galleryList, setGalleryList] = useState([]);
   const [papersList, setPapersList] = useState([]);
+  const [customPagesList, setCustomPagesList] = useState([]);
 
   // Category Selection Lists
   const [collegeCategories, setCollegeCategories] = useState(["medical", "engineering", "humanities"]);
@@ -43,6 +44,25 @@ export default function AdminDashboard() {
   const [newsForm, setNewsForm] = useState({ arTitle: "", enTitle: "", arExcerpt: "", enExcerpt: "", image: "", date: "" });
   const [galleryForm, setGalleryForm] = useState({ category: "campus", image: "", arCaption: "", enCaption: "" });
   const [paperForm, setPaperForm] = useState({ arTitle: "", enTitle: "", authors: "", link: "" });
+  const [customPageForm, setCustomPageForm] = useState({
+    slug: "",
+    arTitle: "",
+    enTitle: "",
+    arSubtitle: "",
+    enSubtitle: "",
+    location: "main",
+    active: true,
+    expiryDate: "",
+    bannerImage: "",
+    arContent: "",
+    enContent: "",
+    agendaTime: "",
+    agendaArTopic: "",
+    agendaEnTopic: "",
+    agenda: [],
+    pdfLink: "",
+    registrationLink: ""
+  });
 
   const showStatus = (msg) => {
     setStatusMessage(msg);
@@ -109,6 +129,9 @@ export default function AdminDashboard() {
 
     // Research
     setPapersList(contentService.getResearchData().papers);
+
+    // Dynamic Custom Pages
+    setCustomPagesList(contentService.getCustomPages(false));
   };
 
   useEffect(() => {
@@ -315,6 +338,118 @@ export default function AdminDashboard() {
     loadAllData();
   };
 
+  const handleAddAgendaItem = () => {
+    if (!customPageForm.agendaTime || !customPageForm.agendaArTopic) {
+      alert(locale === "ar" ? "الرجاء كتابة الوقت والعنوان الفعالية الجانبية" : "Please provide time and topic");
+      return;
+    }
+    const newItem = {
+      time: sanitizeInput(customPageForm.agendaTime),
+      arTopic: sanitizeInput(customPageForm.agendaArTopic),
+      enTopic: sanitizeInput(customPageForm.agendaEnTopic) || sanitizeInput(customPageForm.agendaArTopic)
+    };
+    setCustomPageForm({
+      ...customPageForm,
+      agenda: [...(customPageForm.agenda || []), newItem],
+      agendaTime: "",
+      agendaArTopic: "",
+      agendaEnTopic: ""
+    });
+  };
+
+  const handleRemoveAgendaItem = (index) => {
+    const newAgenda = [...(customPageForm.agenda || [])];
+    newAgenda.splice(index, 1);
+    setCustomPageForm({ ...customPageForm, agenda: newAgenda });
+  };
+
+  const handleSubmitCustomPage = (e) => {
+    e.preventDefault();
+    if (!customPageForm.arTitle || !customPageForm.slug) {
+      alert(locale === "ar" ? "الرجاء كتابة عنوان الصفحة وتحديد الرابط المخصص (Slug)" : "Please provide title and slug");
+      return;
+    }
+
+    const item = {
+      id: editingId || `page_${Date.now()}`,
+      slug: sanitizeInput(customPageForm.slug).trim().toLowerCase().replace(/\s+/g, "-"),
+      arTitle: sanitizeInput(customPageForm.arTitle),
+      enTitle: sanitizeInput(customPageForm.enTitle) || sanitizeInput(customPageForm.arTitle),
+      arSubtitle: sanitizeInput(customPageForm.arSubtitle),
+      enSubtitle: sanitizeInput(customPageForm.enSubtitle),
+      location: customPageForm.location || "main",
+      active: customPageForm.active,
+      expiryDate: customPageForm.expiryDate,
+      bannerImage: sanitizeImageUrl(customPageForm.bannerImage) || "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      arContent: sanitizeInput(customPageForm.arContent),
+      enContent: sanitizeInput(customPageForm.enContent),
+      agenda: customPageForm.agenda || [],
+      pdfLink: sanitizeInput(customPageForm.pdfLink),
+      registrationLink: sanitizeInput(customPageForm.registrationLink)
+    };
+
+    if (editingId) {
+      contentService.updateCustomPage(item);
+      showStatus(locale === "ar" ? "✓ تم تحديث الصفحة المخصصة بنجاح." : "✓ Custom page updated.");
+      setEditingId(null);
+    } else {
+      contentService.addCustomPage(item);
+      showStatus(locale === "ar" ? "✓ تم إنشاء ونشر الصفحة المخصصة بنجاح." : "✓ Custom page published.");
+    }
+
+    setCustomPageForm({
+      slug: "",
+      arTitle: "",
+      enTitle: "",
+      arSubtitle: "",
+      enSubtitle: "",
+      location: "main",
+      active: true,
+      expiryDate: "",
+      bannerImage: "",
+      arContent: "",
+      enContent: "",
+      agendaTime: "",
+      agendaArTopic: "",
+      agendaEnTopic: "",
+      agenda: [],
+      pdfLink: "",
+      registrationLink: ""
+    });
+    loadAllData();
+  };
+
+  const startEditCustomPage = (item) => {
+    setEditingId(item.id);
+    setCustomPageForm({
+      slug: item.slug || "",
+      arTitle: item.arTitle || "",
+      enTitle: item.enTitle || "",
+      arSubtitle: item.arSubtitle || "",
+      enSubtitle: item.enSubtitle || "",
+      location: item.location || "main",
+      active: item.active !== undefined ? item.active : true,
+      expiryDate: item.expiryDate || "",
+      bannerImage: item.bannerImage || "",
+      arContent: item.arContent || "",
+      enContent: item.enContent || "",
+      agendaTime: "",
+      agendaArTopic: "",
+      agendaEnTopic: "",
+      agenda: item.agenda || [],
+      pdfLink: item.pdfLink || "",
+      registrationLink: item.registrationLink || ""
+    });
+  };
+
+  const handleDeleteCustomPage = (id) => {
+    if (confirm(locale === "ar" ? "هل أنت تأكد من حذف هذه الصفحة المخصصة تماماً؟" : "Are you sure you want to delete this custom page?")) {
+      contentService.deleteCustomPage(id);
+      showStatus(locale === "ar" ? "✓ تم حذف الصفحة المخصصة وإزالتها من الهيدر." : "✓ Custom page deleted.");
+      loadAllData();
+    }
+  };
+
   // Edit Trigger Handlers
   const startEditService = (category, item) => {
     setEditingId(item.id);
@@ -467,6 +602,7 @@ export default function AdminDashboard() {
     { id: "services", label: locale === "ar" ? "💻 الخدمات الرقمية" : "Services" },
     { id: "colleges", label: locale === "ar" ? "🏛️ الكليات والمراكز" : "Colleges" },
     { id: "news", label: locale === "ar" ? "📰 الأخبار والإعلانات" : "News" },
+    { id: "custom_pages", label: locale === "ar" ? "📄 الصفحات والمؤتمرات المخصصة" : "Dynamic Pages & Events" },
     { id: "research", label: locale === "ar" ? "🔬 البحوث والمنشورات" : "Research" },
     { id: "gallery", label: locale === "ar" ? "🖼️ المعرض الفني" : "Gallery" },
     { id: "contact", label: locale === "ar" ? "📞 بيانات الاتصال" : "Contact Settings" }
@@ -1153,6 +1289,143 @@ export default function AdminDashboard() {
                         <div style={{ display: "flex", gap: "8px" }}>
                           <button onClick={() => startEditGallery(g)} className={styles.deleteBtn} style={{ color: "var(--primary)" }}>✏️</button>
                           <button onClick={() => handleDeleteGallery(g.id)} className={styles.deleteBtn}>❌</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* ---------------------------------------------------- */}
+            {/* DYNAMIC CUSTOM PAGES & CONFERENCES BUILDER           */}
+            {/* ---------------------------------------------------- */}
+            {activeTab === "custom_pages" && (
+              <>
+                <div className={styles.adminCard}>
+                  <h3>{editingId ? `✏️ ${locale === "ar" ? "تعديل الصفحة المخصصة" : "Edit Dynamic Page"}` : `📄 ${locale === "ar" ? "إنشاء صفحة أو مؤتمر مخصص جديد" : "Create New Dynamic Page / Event"}`}</h3>
+                  <form onSubmit={handleSubmitCustomPage}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "عنوان الصفحة (العربية) *" : "Page Title (AR) *"}</label>
+                        <input type="text" required className={styles.inputField} placeholder="مثال: مؤتمر الذكاء الاصطناعي 2026" value={customPageForm.arTitle} onChange={e => setCustomPageForm({ ...customPageForm, arTitle: e.target.value })} />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "عنوان الصفحة (الإنجليزية)" : "Page Title (EN)"}</label>
+                        <input type="text" className={styles.inputField} placeholder="e.g. AI Conference 2026" value={customPageForm.enTitle} onChange={e => setCustomPageForm({ ...customPageForm, enTitle: e.target.value })} />
+                      </div>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginTop: "10px" }}>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "الرابط المخصص في متصفح الزوار (Slug) *" : "Custom URL Slug *"}</label>
+                        <input type="text" required className={styles.inputField} placeholder="e.g. ai-conference-2026" value={customPageForm.slug} onChange={e => setCustomPageForm({ ...customPageForm, slug: e.target.value })} />
+                        <small style={{ color: "var(--accent)", fontSize: "11px" }}>
+                          {locale === "ar" ? `سيكون رابط الصفحة: /pages/${customPageForm.slug || "your-slug"}` : `URL: /pages/${customPageForm.slug || "your-slug"}`}
+                        </small>
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "مكان الظهور في الشريط العلوي *" : "Navbar Location *"}</label>
+                        <select className={styles.selectField} value={customPageForm.location} onChange={e => setCustomPageForm({ ...customPageForm, location: e.target.value })}>
+                          <option value="main">{locale === "ar" ? "الشريط الرئيسي العلوي (Main Navbar)" : "Main Header Navbar"}</option>
+                          <option value="secondary">{locale === "ar" ? "القائمة الجانبية (Secondary Drawer)" : "Secondary Sidebar Menu"}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginTop: "10px" }}>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "تاريخ الانتهاء وإلغاء النشر التلقائي" : "Auto Expiry Date"}</label>
+                        <input type="date" className={styles.inputField} value={customPageForm.expiryDate} onChange={e => setCustomPageForm({ ...customPageForm, expiryDate: e.target.value })} />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "حالة النشر والظهور" : "Publication Status"}</label>
+                        <select className={styles.selectField} value={customPageForm.active ? "true" : "false"} onChange={e => setCustomPageForm({ ...customPageForm, active: e.target.value === "true" })}>
+                          <option value="true">{locale === "ar" ? "مفعلة وتظهر للجميع 🟢" : "Active & Published 🟢"}</option>
+                          <option value="false">{locale === "ar" ? "مسودة غير مفعلة 🔴" : "Draft / Hidden 🔴"}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className={styles.formGroup} style={{ marginTop: "10px" }}>
+                      <label>{locale === "ar" ? "صورة غلاف الصفحة (Hero Banner Image)" : "Banner Image URL"}</label>
+                      <div style={{ display: "flex", gap: "10px" }}>
+                        <input type="text" className={styles.inputField} placeholder="https://..." value={customPageForm.bannerImage} onChange={e => setCustomPageForm({ ...customPageForm, bannerImage: e.target.value })} />
+                        <label className={styles.fileUploadBtn}>
+                          📁 {locale === "ar" ? "رفع صورة" : "Upload"}
+                          <input type="file" accept="image/*" style={{ display: "none" }} onChange={e => handleFileUpload(e, url => setCustomPageForm({ ...customPageForm, bannerImage: url }))} />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className={styles.formGroup} style={{ marginTop: "10px" }}>
+                      <label>{locale === "ar" ? "تفاصيل ومحتوى الصفحة (بالعربية)" : "Full Description & Content (AR)"}</label>
+                      <textarea className={styles.textareaField} style={{ height: "100px" }} value={customPageForm.arContent} onChange={e => setCustomPageForm({ ...customPageForm, arContent: e.target.value })} />
+                    </div>
+
+                    <div className={styles.formGroup} style={{ marginTop: "10px" }}>
+                      <label>{locale === "ar" ? "تفاصيل ومحتوى الصفحة (بالإنجليزية)" : "Full Description & Content (EN)"}</label>
+                      <textarea className={styles.textareaField} style={{ height: "80px" }} value={customPageForm.enContent} onChange={e => setCustomPageForm({ ...customPageForm, enContent: e.target.value })} />
+                    </div>
+
+                    {/* Program Agenda Builder */}
+                    <div style={{ background: "rgba(255,255,255,0.03)", padding: "14px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.08)", marginTop: "16px" }}>
+                      <strong style={{ color: "#e9c349", display: "block", marginBottom: "10px" }}>
+                        📅 {locale === "ar" ? "إضافة فقرة جديدة في جدول البرنامج" : "Add Program Agenda Item"}
+                      </strong>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: "10px" }}>
+                        <input type="text" className={styles.inputField} placeholder="الوقت (مثال: 09:00 AM)" value={customPageForm.agendaTime} onChange={e => setCustomPageForm({ ...customPageForm, agendaTime: e.target.value })} />
+                        <input type="text" className={styles.inputField} placeholder="عنوان الفقرة / المحور" value={customPageForm.agendaArTopic} onChange={e => setCustomPageForm({ ...customPageForm, agendaArTopic: e.target.value })} />
+                        <button type="button" onClick={handleAddAgendaItem} className={styles.submitBtn} style={{ marginTop: 0, padding: "8px" }}>
+                          ➕ {locale === "ar" ? "إضافة الفقرة" : "Add Agenda"}
+                        </button>
+                      </div>
+
+                      {customPageForm.agenda && customPageForm.agenda.length > 0 && (
+                        <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                          {customPageForm.agenda.map((ag, idx) => (
+                            <div key={idx} style={{ display: "flex", justifyContent: "space-between", background: "rgba(255,255,255,0.05)", padding: "8px 12px", borderRadius: "6px", fontSize: "13px" }}>
+                              <span>⏱️ {ag.time} - {ag.arTopic}</span>
+                              <button type="button" onClick={() => handleRemoveAgendaItem(idx)} style={{ background: "none", border: "none", color: "#e53935", cursor: "pointer" }}>&times;</button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginTop: "16px" }}>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "رابط دليل / كتيب الـ PDF" : "Guide PDF Link"}</label>
+                        <input type="text" className={styles.inputField} placeholder="https://..." value={customPageForm.pdfLink} onChange={e => setCustomPageForm({ ...customPageForm, pdfLink: e.target.value })} />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label>{locale === "ar" ? "رابط نموذج التسجيل / المشاركة" : "Registration Link"}</label>
+                        <input type="text" className={styles.inputField} placeholder="/admissions or https://..." value={customPageForm.registrationLink} onChange={e => setCustomPageForm({ ...customPageForm, registrationLink: e.target.value })} />
+                      </div>
+                    </div>
+
+                    <button type="submit" className={styles.submitBtn}>
+                      {editingId ? (locale === "ar" ? "تحديث وتثبيت التعديلات" : "Update Page") : (locale === "ar" ? "نشر وتثبيت الصفحة في الهيدر" : "Publish & Attach to Navbar")}
+                    </button>
+                  </form>
+                </div>
+
+                {/* Published Custom Pages List */}
+                <div className={styles.adminCard}>
+                  <h3>📋 {locale === "ar" ? "قائمة الصفحات والمؤتمرات المخصصة المنشورة" : "Published Dynamic Pages List"} ({customPagesList.length})</h3>
+                  <div className={styles.servicesListContainer}>
+                    {customPagesList.map(p => (
+                      <div key={p.id} className={styles.serviceItem}>
+                        <div>
+                          <strong>{locale === "ar" ? p.arTitle : p.enTitle}</strong>
+                          <span style={{ fontSize: "11px", display: "block", color: "var(--accent)" }}>
+                            🔗 /pages/{p.slug} | 📍 {p.location === "main" ? (locale === "ar" ? "الهيدر الرئيسي" : "Main Header") : (locale === "ar" ? "القائمة الجانبية" : "Sidebar")} | {p.active ? "🟢 مفعلة" : "🔴 مسودة"}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                          <a href={`/pages/${p.slug}`} target="_blank" rel="noopener noreferrer" style={{ color: "#64b5f6", fontSize: "13px", textDecoration: "none" }}>👁️ {locale === "ar" ? "معاينة" : "Preview"}</a>
+                          <button onClick={() => startEditCustomPage(p)} className={styles.deleteBtn} style={{ color: "var(--primary)" }}>✏️</button>
+                          <button onClick={() => handleDeleteCustomPage(p.id)} className={styles.deleteBtn}>❌</button>
                         </div>
                       </div>
                     ))}

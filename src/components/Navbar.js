@@ -5,11 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/LanguageContext";
+import { contentService } from "../services/contentService";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [customPages, setCustomPages] = useState([]);
   const { locale, toggleLocale, t } = useLanguage();
   const pathname = usePathname();
 
@@ -28,6 +30,18 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Load active custom pages from contentService
+  useEffect(() => {
+    const loadPages = () => {
+      const activePages = contentService.getCustomPages(true);
+      setCustomPages(activePages);
+    };
+
+    loadPages();
+    window.addEventListener("storage", loadPages);
+    return () => window.removeEventListener("storage", loadPages);
+  }, []);
+
   // Close drawer when pathname changes
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,18 +51,32 @@ export default function Navbar() {
   }, [pathname]);
 
   const mainLinks = [
-    { href: "/", labelKey: "nav_home" },
-    { href: "/about", labelKey: "nav_about" },
-    { href: "/colleges", labelKey: "nav_colleges" },
-    { href: "/services", labelKey: "nav_services" },
+    { href: "/", label: t("nav_home") },
+    { href: "/about", label: t("nav_about") },
+    { href: "/colleges", label: t("nav_colleges") },
+    { href: "/services", label: t("nav_services") },
+    ...customPages
+      .filter((p) => p.location === "main")
+      .map((p) => ({
+        href: `/pages/${p.slug}`,
+        label: isAr ? p.arTitle : p.enTitle,
+        isCustom: true,
+      })),
   ];
 
   const secondaryLinks = [
-    { href: "/admissions", labelKey: "nav_admissions" },
-    { href: "/news", labelKey: "nav_news" },
-    { href: "/research", labelKey: "nav_research" },
-    { href: "/gallery", labelKey: "nav_gallery" },
-    { href: "/contact", labelKey: "nav_contact" },
+    { href: "/admissions", label: t("nav_admissions") },
+    { href: "/news", label: t("nav_news") },
+    { href: "/research", label: t("nav_research") },
+    { href: "/gallery", label: t("nav_gallery") },
+    { href: "/contact", label: t("nav_contact") },
+    ...customPages
+      .filter((p) => p.location === "secondary")
+      .map((p) => ({
+        href: `/pages/${p.slug}`,
+        label: isAr ? p.arTitle : p.enTitle,
+        isCustom: true,
+      })),
   ];
 
   if (pathname && (pathname.startsWith("/portal") || pathname.startsWith("/admin"))) {
@@ -93,7 +121,7 @@ export default function Navbar() {
                   href={link.href}
                   className={`${styles.navLink} ${isActive ? styles.activeLink : ""}`}
                 >
-                  {t(link.labelKey)}
+                  {link.label}
                 </Link>
               );
             })}
@@ -155,7 +183,7 @@ export default function Navbar() {
                   className={`${styles.drawerLink} ${isActive ? styles.activeDrawerLink : ""}`}
                   style={{ display: "block", marginBottom: "8px" }}
                 >
-                  {t(link.labelKey)}
+                  {link.label}
                 </Link>
               );
             })}
@@ -177,7 +205,7 @@ export default function Navbar() {
                   className={`${styles.drawerLink} ${isActive ? styles.activeDrawerLink : ""}`}
                   style={{ display: "block", marginBottom: "8px" }}
                 >
-                  {t(link.labelKey)}
+                  {link.label}
                 </Link>
               );
             })}
