@@ -95,3 +95,28 @@
 3. **التجميع والرفع لـ GitHub**:
    - نجاح التجميع بـ Next.js 16 بنسبة 100%.
    - الرفع المباشر: `git push origin main` لتحديث Netlify تلقائياً.
+
+---
+
+# توثيق حل خطأ البناء على Netlify (Exit Code 2 Fix)
+
+## 1. شرح المشكلة والطلب
+ظهور خطأ البناء التالي في منصة Netlify:
+`Failed during stage 'building site': Build script returned non-zero exit code: 2`
+
+## 2. سبب حدوث المشكلة
+1. وجود خيار `output: 'standalone'` سابقاً في ملف `next.config.mjs` (والذي أضيف أثناء تجربة منصة Vercel)، مما يسبب تعارضاً مع مجمع ملحق Netlify المدمج `@netlify/plugin-nextjs`.
+2. عدم وجود ملف ضبط البناء المباشر `netlify.toml` لتحديد سياق البناء ومجلد المخرجات `.next`.
+
+## 3. خطوات وتفاصيل الحل
+1. **إزالة إعداد `standalone`**: حذف سطر `output: 'standalone'` من [next.config.mjs](file:///d:/KassalaWebsite/next.config.mjs).
+2. **إنشاء ملف إعدادات التجميع الرسمي `netlify.toml`**:
+   - إتاحة مسار البناء `command = "npm run build"`.
+   - تحديد مجلد المخرجات `publish = ".next"`.
+   - ربط ملحق Next.js لـ Netlify `package = "@netlify/plugin-nextjs"`.
+3. **التحقق والرفع**:
+   - تجربة البناء المحلي بنجاح 100%.
+   - الرفع إلى GitHub عبر `git push origin main`.
+
+## 4. الدروس المستفادة
+- إعداد ملف `netlify.toml` يضمن استقرار كافة بناءات تجميع السيرفرات والتوجيه الديناميكي لـ Next.js App Router على سيرفرات Netlify بدون خطأ exit code 2.
