@@ -19,9 +19,12 @@ export default function DynamicCustomPage() {
 
   useEffect(() => {
     if (!slug) return;
-    const foundPage = contentService.getPageBySlug(slug);
-    setPage(foundPage);
-    setLoading(false);
+    const timer = setTimeout(() => {
+      const foundPage = contentService.getPageBySlug(slug);
+      setPage(foundPage);
+      setLoading(false);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [slug]);
 
   if (loading) {
