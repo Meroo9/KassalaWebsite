@@ -37,7 +37,7 @@ export default function News() {
             enExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
             arContent: post.content.rendered,
             enContent: post.content.rendered,
-            image: post.jetpack_featured_media_url || defaultImage,
+            image: post.jetpack_featured_media_url ? `/api/proxy-image?url=${encodeURIComponent(post.jetpack_featured_media_url)}` : defaultImage,
           };
         });
         

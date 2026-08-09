@@ -81,9 +81,9 @@ export const contentService = {
       ctaAr: "القبول والتسجيل",
       ctaEn: "Admissions",
       images: [
-        "https://kassalauni.edu.sd/nw/wp-content/uploads/2019/10/DSC00314.jpg",
-        "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
-        "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg"
+        "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2019/10/DSC00314.jpg",
+        "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+        "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg"
       ]
     };
     return loadData(KEYS.HERO, defaultHero);
@@ -104,7 +104,7 @@ export const contentService = {
       roleEn: "Rector of the University",
       speechAr: "مرحباً بكم في رحاب جامعة كسلا. نسعى جاهدين لتقديم بيئة تعليمية متميزة تواكب التحول الرقمي وتسهم في تمكين الطلاب والباحثين لتحقيق الريادة العلمية وخدمة التنمية المحلية والإقليمية.",
       speechEn: "Welcome to the University of Kassala. We strive to provide an outstanding educational environment that embraces digital transformation, enabling students and researchers to achieve leadership and support sustainable development.",
-      image: "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/730487604_1462071155961397_1557412588719809173_n-360x240.jpg"
+      image: "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/730487604_1462071155961397_1557412588719809173_n-360x240.jpg"
     };
     return loadData(KEYS.RECTOR, defaultRector);
   },
@@ -351,7 +351,7 @@ export const contentService = {
         location: "main",
         active: true,
         expiryDate: "2026-12-31",
-        bannerImage: "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+        bannerImage: "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
         arContent: "يسر جامعة كسلا الإعلان عن انطلاق المؤتمر الدولي الأول للذكاء الاصطناعي والتحول الرقمي، والذي يجمع نخبة من المتحدثين والباحثين لبحث تطبيقات الذكاء الاصطناعي في التعليم الجامعي والتنمية الاقتصادية بشرق السودان.",
         enContent: "University of Kassala is honored to announce the 1st International AI & Digital Transformation Conference, bringing together top speakers and researchers to discuss AI applications in higher education and economic development.",
         agenda: [

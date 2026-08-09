@@ -126,7 +126,7 @@ export default function Home() {
                 enTitle: post.title.rendered.replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
                 arExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
                 enExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
-                image: post.jetpack_featured_media_url || defaultImage,
+                image: post.jetpack_featured_media_url ? `/api/proxy-image?url=${encodeURIComponent(post.jetpack_featured_media_url)}` : defaultImage,
                 link: "/news",
               };
             });
