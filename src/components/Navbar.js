@@ -91,10 +91,10 @@ export default function Navbar() {
           {/* Logo Area */}
           <Link href="/" className={styles.logoArea}>
             <Image
-              src="/images/about-uni.png"
+              src="/images/logo.png"
               alt="Kassala University Logo"
-              width={160}
-              height={80}
+              width={65}
+              height={65}
               className={styles.logoImage}
               style={{ objectFit: "contain" }}
             />
