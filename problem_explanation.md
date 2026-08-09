@@ -141,3 +141,30 @@
 
 ## 4. الدروس المستفادة
 - الالتزام بقواعد React Hooks وتجنب استدعاء الـ Synchronous State Update داخل الـ Effect Body يضمن استقرار الأداء ومنع توقف السيرفرات أثناء الـ Linting في بيئات الـ CI/CD مثل Netlify و Vercel.
+
+---
+
+# توثيق تطبيق رؤوس الأمان وتطوير الحماية وفق معايير OWASP (Security Headers Hardening)
+
+## 1. شرح المشكلة والطلب
+تطبيق الممارسات الأمنية الموصى بها رسمياً لحماية تطبيق Next.js ضد هجمات الويب التنافسية (مثل Cross-Site Scripting, Clickjacking, MIME-sniffing, HTTPS Downgrade).
+
+## 2. سبب الأهمية
+بدون رؤوس الحماية المشفرة (Security Headers)، تظل الصفحات عرضة لتضمينها داخل أطارات وهمية خارطة (Clickjacking) أو تنفيذ سكريبتات ضارة خفية في متصفحات الزوار.
+
+## 3. خطوات وتفاصيل الحل
+1. **تحديث ملف الضبط [next.config.mjs](file:///d:/KassalaWebsite/next.config.mjs)**:
+   - إضافة سياسة حماية المحتوى `Content-Security-Policy` لتقييد مصادر النصوص والملفات على المصادر الآمنة المعتمدة.
+   - فرض الاتصال المشفر `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`.
+   - تفعيل `X-Frame-Options: DENY` لمنع هجمات الـ Clickjacking.
+   - تفعيل `X-Content-Type-Options: nosniff` لمنع تلاعب الأنواع.
+   - تفعيل `X-DNS-Prefetch-Control: on` لرفع كفاءة الأداء البرمجي.
+   - ضبط `Permissions-Policy` لمنع الوصول للكاميرا والميكروفون والموقع بدون إذن.
+2. **تحديث ملف CDN Edge في [netlify.toml](file:///d:/KassalaWebsite/netlify.toml)**:
+   - حقن رؤوس الأمان مباشرة على مستوى خوادم الحافة (CDN Edge) لجميع الطلبات `/*`.
+3. **الاختبار والرفع**:
+   - تجربة البناء بنجاح 100%.
+   - تنفيذ `git push origin main` لتحديث الاستضافة مباشرة (`f5df10c`).
+
+## 4. الدروس المستفادة
+- تطبيق الحماية المزدوجة على مستوى السيرفر البرمجي وعلى مستوى شبكة الـ CDN Edge يوفر أماناً شاملاً (Defense-in-Depth) وفق متطلبات معايير OWASP.
