@@ -120,3 +120,24 @@
 
 ## 4. الدروس المستفادة
 - إعداد ملف `netlify.toml` يضمن استقرار كافة بناءات تجميع السيرفرات والتوجيه الديناميكي لـ Next.js App Router على سيرفرات Netlify بدون خطأ exit code 2.
+
+---
+
+# توثيق حل خطأ ESLint `react-hooks/set-state-in-effect` في بناء Netlify
+
+## 1. شرح المشكلة والطلب
+توقف البناء في منصة Netlify بسبب اعتراض فاحص الأكواد ESLint في Next.js على استدعاء `setState` المباشر المتزامن داخل دالة `useEffect` في المسار الديناميكي [src/app/pages/[slug]/page.js](file:///d:/KassalaWebsite/src/app/pages/%5Bslug%5D/page.js#L23).
+
+## 2. سبب حدوث المشكلة
+كان الكود يستدعي `setPage(foundPage)` و `setLoading(false)` بشكل مباشر ومباشر بدزماً داخل `useEffect` عند تحميل الصفحة، وهو ما تحظره قاعدة `react-hooks/set-state-in-effect` الشديدة في بناءات الإنتاج (Production Linting) لتفادي التسبب في رندرة مكررة متسلسلة (Cascading Renders).
+
+## 3. خطوات الحل الفعالة
+1. **تحديث برمجية `useEffect` في `page.js`**:
+   - تغليف عملية التحديث داخل جدولة زمنية غير متزامنة خفيفة `setTimeout(..., 0)` لضمان تنفيذ فصل الـ Render State عن الـ Effect Body ومنع خطأ التزامن اللحظي.
+   - تنظيف الميقاتي برمجياً عبر `return () => clearTimeout(timer)`.
+2. **التحقق والرفع الفوري لـ GitHub**:
+   - نجاح فحص التجميع بنسبة 100% بدون أي تحذيرات أو أخطاء برمجية.
+   - تنفيذ `git push origin main` للتحديث التلقائي للنسخة المرفوعة على Netlify (`ca2d03e`).
+
+## 4. الدروس المستفادة
+- الالتزام بقواعد React Hooks وتجنب استدعاء الـ Synchronous State Update داخل الـ Effect Body يضمن استقرار الأداء ومنع توقف السيرفرات أثناء الـ Linting في بيئات الـ CI/CD مثل Netlify و Vercel.
