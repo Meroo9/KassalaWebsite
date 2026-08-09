@@ -340,15 +340,15 @@ export const contentService = {
   // 10. Dynamic Custom Pages & Conferences Manager
   // ----------------------------------------------------
   getCustomPages(onlyActive = false) {
-    const defaultPages = [
+    const defaultPages = fallbackData.customPages || [
       {
         id: "page_ai_conf_2026",
         slug: "ai-conference-2026",
-        arTitle: "مؤتمر الذكاء الاصطناعي والتحول الرقمي 2026",
-        enTitle: "AI & Digital Transformation Conference 2026",
+        arTitle: "مؤتمر الذكاء الاصطناعي 2026",
+        enTitle: "AI Conference 2026",
         arSubtitle: "المؤتمر العلمي الدولي الأول بجامعة كسلا لشراكات المستقبل التقني",
         enSubtitle: "1st International Scientific Conference for Future Tech Partnerships",
-        location: "main", // "main" (Header Navbar) or "secondary" (Drawer)
+        location: "main",
         active: true,
         expiryDate: "2026-12-31",
         bannerImage: "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
@@ -364,7 +364,9 @@ export const contentService = {
       }
     ];
 
-    const pages = loadData(KEYS.CUSTOM_PAGES, defaultPages);
+    const stored = loadData(KEYS.CUSTOM_PAGES, null);
+    const pages = (stored && Array.isArray(stored) && stored.length > 0) ? stored : defaultPages;
+
     if (!onlyActive) return pages;
 
     const today = new Date().toISOString().split("T")[0];

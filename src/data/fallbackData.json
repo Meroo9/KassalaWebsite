@@ -135,5 +135,28 @@
       "arCaption": "فرحة الطلاب الخريجين في حفل تخريج الدفعة السابقة بكلية الاقتصاد",
       "enCaption": "Graduating Students Celebrating at Economics Deanship Graduation"
     }
+  ],
+  "customPages": [
+    {
+      "id": "page_ai_conf_2026",
+      "slug": "ai-conference-2026",
+      "arTitle": "مؤتمر الذكاء الاصطناعي 2026",
+      "enTitle": "AI Conference 2026",
+      "arSubtitle": "المؤتمر العلمي الدولي الأول بجامعة كسلا لشراكات المستقبل التقني",
+      "enSubtitle": "1st International Scientific Conference for Future Tech Partnerships",
+      "location": "main",
+      "active": true,
+      "expiryDate": "2026-12-31",
+      "bannerImage": "https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "arContent": "يسر جامعة كسلا الإعلان عن انطلاق المؤتمر الدولي الأول للذكاء الاصطناعي والتحول الرقمي، والذي يجمع نخبة من المتحدثين والباحثين لبحث تطبيقات الذكاء الاصطناعي في التعليم الجامعي والتنمية الاقتصادية بشرق السودان.",
+      "enContent": "University of Kassala is honored to announce the 1st International AI & Digital Transformation Conference, bringing together top speakers and researchers to discuss AI applications in higher education and economic development.",
+      "agenda": [
+        { "time": "09:00 AM", "arTopic": "الجلسة الافتتاحية وكلمة مدير الجامعة", "enTopic": "Opening Ceremony & Rector Speech" },
+        { "time": "10:30 AM", "arTopic": "ورقة عمل: الذكاء الاصطناعي في خدمة التنمية المحلية", "enTopic": "Keynote: AI for Regional Development" },
+        { "time": "01:00 PM", "arTopic": "معرض الابتكارات والشركات الناشئة", "enTopic": "Innovation & Startup Exhibition" }
+      ],
+      "pdfLink": "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Islamia.pdf",
+      "registrationLink": "/admissions"
+    }
   ]
 }
