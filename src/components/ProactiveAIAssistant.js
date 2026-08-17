@@ -222,37 +222,42 @@ export default function ProactiveAIAssistant() {
 
   return (
     <div style={{ position: "fixed", bottom: "24px", left: lang === "ar" ? "24px" : "auto", right: lang === "en" ? "24px" : "auto", zIndex: 9999 }}>
-      {/* Trigger Button (Emerald Green & Gold Accent Theme) */}
+      {/* Trigger Button (Emerald Green & Gold Accent Theme - Icon Only) */}
       <button
         onClick={() => { setIsOpen(!isOpen); setBadgeCount(0); }}
+        title={lang === "en" ? "Smart Assistant" : "المساعد الذكي"}
+        aria-label={lang === "en" ? "Smart Assistant" : "المساعد الذكي"}
         style={{
           background: "linear-gradient(135deg, #0D5C34 0%, #053B1E 100%)",
           color: "#fff",
-          border: "2px solid #d4a017",
-          borderRadius: "50px",
-          padding: "12px 22px",
+          border: "2.5px solid #d4a017",
+          borderRadius: "50%",
+          width: "56px",
+          height: "56px",
           display: "flex",
           alignItems: "center",
-          gap: "10px",
-          boxShadow: "0 10px 25px rgba(13, 92, 52, 0.4)",
+          justifyContent: "center",
+          position: "relative",
+          boxShadow: "0 10px 25px rgba(13, 92, 52, 0.45)",
           cursor: "pointer",
-          fontWeight: "700",
-          fontSize: "15px",
           transition: "transform 0.2s ease, boxShadow 0.2s ease"
         }}
-        onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+        onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
         onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f3cb65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f3cb65" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="11" width="18" height="10" rx="2"/>
           <circle cx="12" cy="5" r="2"/>
           <path d="M12 7v4"/>
           <line x1="8" y1="16" x2="8.01" y2="16" strokeWidth="3"/>
           <line x1="16" y1="16" x2="16.01" y2="16" strokeWidth="3"/>
         </svg>
-        <span>{lang === "en" ? "Smart Assistant" : "المساعد الذكي"}</span>
         {badgeCount > 0 && (
           <span style={{
+            position: "absolute",
+            top: "-4px",
+            right: lang === "ar" ? "auto" : "-4px",
+            left: lang === "ar" ? "-4px" : "auto",
             background: "#d32f2f",
             color: "#fff",
             borderRadius: "50%",
@@ -262,7 +267,8 @@ export default function ProactiveAIAssistant() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontWeight: "700"
+            fontWeight: "700",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.3)"
           }}>
             !
           </span>

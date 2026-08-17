@@ -63,15 +63,17 @@ export default function Colleges() {
             {filteredColleges.map((college) => (
               <div key={college.id} className={styles.collegeCard} id={college.id}>
                 <div className={styles.cardHeader}>
-                  <Image
-                    src={college.image}
-                    alt={locale === "ar" ? college.arName : college.enName}
-                    width={1200}
-                    height={800}
-                    unoptimized
-                    loading="lazy"
-                    className={styles.collegeImg}
-                  />
+                  <div className={styles.iconWrapper}>
+                    <Image
+                      src={college.image}
+                      alt={locale === "ar" ? college.arName : college.enName}
+                      width={96}
+                      height={96}
+                      unoptimized
+                      loading="lazy"
+                      className={styles.collegeImg}
+                    />
+                  </div>
                   <span className={styles.categoryTag}>
                     {college.category === "medical"
                       ? t("colleges_filter_medical")

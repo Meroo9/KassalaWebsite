@@ -11,42 +11,6 @@ import styles from "./page.module.css";
 import TechIcon from "../components/TechIcon";
 import AnimatedStatsCard from "../components/AnimatedStatsCard";
 
-function AnimatedNumber({ value }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const cleanNum = parseInt(value.replace(/[^0-9]/g, ""));
-    if (isNaN(cleanNum)) {
-      const timer = setTimeout(() => {
-        setCount(value);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-
-    let start = 0;
-    const duration = 2000;
-    const steps = 40;
-    const stepTime = duration / steps;
-    const increment = cleanNum / steps;
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= cleanNum) {
-        clearInterval(timer);
-        setCount(cleanNum);
-      } else {
-        setCount(Math.ceil(start));
-      }
-    }, stepTime);
-
-    return () => clearInterval(timer);
-  }, [value]);
-
-  const formatted = typeof count === "number" ? count.toLocaleString() : count;
-  const hasPlus = value.includes("+");
-  return <span>{formatted}{hasPlus ? "+" : ""}</span>;
-}
-
 export default function Home() {
   const { locale, t } = useLanguage();
   const { role, changeRole } = useUserRole();
@@ -155,12 +119,6 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    window.location.href = `/services?q=${encodeURIComponent(searchQuery)}`;
-  };
-
   const getRoleFilteredServices = () => {
     if (role === ROLES.NEW_STUDENT) {
       return [
@@ -267,8 +225,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {/* Quick Portals Grid Section */}
 
       {/* Quick Portals Grid Section (Role-Filtered) */}
       <section className={styles.quickServicesSection}>
@@ -386,7 +342,19 @@ export default function Home() {
           <div className={styles.collegesGrid}>
             {featuredColleges.slice(0, 3).map((college) => (
               <div key={college.id} className={`${styles.collegeCard} card`}>
-                <Image src={college.image} alt={locale === "ar" ? college.arName : college.enName} width={1200} height={800} unoptimized loading="lazy" className={styles.collegeImg} />
+                <div className={styles.cardHeader}>
+                  <div className={styles.iconWrapper}>
+                    <Image 
+                      src={college.image} 
+                      alt={locale === "ar" ? college.arName : college.enName} 
+                      width={90} 
+                      height={90} 
+                      unoptimized 
+                      loading="lazy" 
+                      className={styles.collegeImg} 
+                    />
+                  </div>
+                </div>
                 <div className={styles.collegeBody}>
                   <h3>{locale === "ar" ? college.arName : college.enName}</h3>
                   <p>{locale === "ar" ? college.arDesc : college.enDesc}</p>

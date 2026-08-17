@@ -481,10 +481,40 @@
   border-color: var(--accent);
 }
 
+.cardHeader {
+  position: relative;
+  height: 150px;
+  background: linear-gradient(135deg, rgba(13, 92, 52, 0.06) 0%, rgba(230, 244, 237, 0.5) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(13, 92, 52, 0.08);
+  overflow: hidden;
+}
+
+.iconWrapper {
+  width: 90px;
+  height: 90px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(13, 92, 52, 0.12);
+  border: 3px solid #FFFFFF;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.collegeCard:hover .iconWrapper {
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(13, 92, 52, 0.2);
+}
+
 .collegeImg {
-  height: 200px;
   width: 100%;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
 }
 
 .collegeBody {

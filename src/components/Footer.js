@@ -48,6 +48,20 @@ export default function Footer() {
               </svg>
             </a>
           </div>
+
+          {/* Mini Google Map */}
+          <div className={styles.miniMapContainer}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3845.677740328133!2d36.382053!3d15.447935!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1664f108b325e725%3A0x38692aa19b459a8a!2sKassala%20University%20%2F%20Faculty%20of%20Medicine%20and%20Health%20Sciences!5e0!3m2!1sen!2s!4v1786934967717!5m2!1sen!2s"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title={locale === "ar" ? "خريطة مجمع كليات جامعة كسلا" : "Kassala University Map Location"}
+            />
+          </div>
         </div>
 
         <div className={styles.footerCol}>
