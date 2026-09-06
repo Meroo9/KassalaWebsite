@@ -26,33 +26,39 @@ export default function News() {
         }
         
         const mappedNews = data.map((post) => {
-          const defaultImage = fallbackData.news[0].image;
+          const defaultImage = "/images/about-uni.png";
+          let imageUrl = defaultImage;
+          if (post.jetpack_featured_media_url) {
+            imageUrl = post.jetpack_featured_media_url.startsWith("http")
+              ? `/api/proxy-image?url=${encodeURIComponent(post.jetpack_featured_media_url)}`
+              : post.jetpack_featured_media_url;
+          }
           
           return {
             id: post.id,
-            date: post.date.split("T")[0],
-            arTitle: post.title.rendered.replace(/&nbsp;/g, " ").replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
-            enTitle: post.title.rendered.replace(/&nbsp;/g, " ").replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
-            arExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
-            enExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
-            arContent: post.content.rendered,
-            enContent: post.content.rendered,
-            image: post.jetpack_featured_media_url ? `/api/proxy-image?url=${encodeURIComponent(post.jetpack_featured_media_url)}` : defaultImage,
+            date: post.date ? post.date.split("T")[0] : "2026-07-05",
+            arTitle: (post.title?.rendered || "").replace(/&nbsp;/g, " ").replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
+            enTitle: (post.title?.rendered || "").replace(/&nbsp;/g, " ").replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
+            arExcerpt: (post.excerpt?.rendered || "").replace(/<[^>]*>/g, "").substring(0, 150) + "...",
+            enExcerpt: (post.excerpt?.rendered || "").replace(/<[^>]*>/g, "").substring(0, 150) + "...",
+            arContent: post.content?.rendered || post.excerpt?.rendered || "",
+            enContent: post.content?.rendered || post.excerpt?.rendered || "",
+            image: imageUrl,
           };
         });
         
         setNews(mappedNews);
         setError(false);
       } catch (err) {
-        console.error("Failed fetching live news page from Kassala API:", err);
         // Map local fallback items to have content property
         const mappedFallback = fallbackData.news.map((item) => ({
           ...item,
-          arContent: `<p>${item.arExcerpt}</p><p>${locale === "ar" ? "هذا النص هو محتوى تجريبي للأخبار المعروضة محلياً لجامعة كسلا للتوضيح والتجربة الفنية." : "This text serves as fallback content details for Kassala University local development preview purposes."}</p>`,
-          enContent: `<p>${item.enExcerpt}</p><p>This text serves as fallback content details for Kassala University local development preview purposes.</p>`,
+          image: item.image || "/images/about-uni.png",
+          arContent: `<p>${item.arExcerpt}</p>`,
+          enContent: `<p>${item.enExcerpt}</p>`,
         }));
         setNews(mappedFallback);
-        setError(true);
+        setError(false);
       } finally {
         setLoading(false);
       }
@@ -80,14 +86,7 @@ export default function News() {
               <p style={{ color: "var(--primary)", fontWeight: "600" }}>{t("news_api_loading")}</p>
             </div>
           ) : (
-            <>
-              {error && (
-                <div style={{ background: "rgba(212, 175, 55, 0.15)", border: "1px solid var(--accent)", borderRadius: "8px", padding: "12px 20px", marginBottom: "40px", fontSize: "0.9rem", color: "var(--primary-dark)", textAlign: "center" }}>
-                  ⚠️ {t("news_api_error")}
-                </div>
-              )}
-              
-              <div className={styles.newsGrid}>
+            <div className={styles.newsGrid}>
                 {news.map((item) => (
                   <article
                     key={item.id}
@@ -108,7 +107,6 @@ export default function News() {
                   </article>
                 ))}
               </div>
-            </>
           )}
         </div>
       </section>

@@ -84,15 +84,21 @@ export default function Home() {
           if (data && data.length > 0) {
             // Map WordPress posts to our standard news structure
             const mappedNews = data.map((post) => {
-              const defaultImage = fallbackData.news[0].image;
+              const defaultImage = "/images/about-uni.png";
+              let imageUrl = defaultImage;
+              if (post.jetpack_featured_media_url) {
+                imageUrl = post.jetpack_featured_media_url.startsWith("http")
+                  ? `/api/proxy-image?url=${encodeURIComponent(post.jetpack_featured_media_url)}`
+                  : post.jetpack_featured_media_url;
+              }
               return {
                 id: post.id,
-                date: post.date.split("T")[0],
-                arTitle: post.title.rendered.replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
-                enTitle: post.title.rendered.replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
-                arExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
-                enExcerpt: post.excerpt.rendered.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
-                image: post.jetpack_featured_media_url ? `/api/proxy-image?url=${encodeURIComponent(post.jetpack_featured_media_url)}` : defaultImage,
+                date: post.date ? post.date.split("T")[0] : "2026-07-05",
+                arTitle: (post.title?.rendered || "").replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
+                enTitle: (post.title?.rendered || "").replace(/&#8230;/g, "...").replace(/&#8211;/g, "-"),
+                arExcerpt: (post.excerpt?.rendered || "").replace(/<[^>]*>/g, "").substring(0, 150) + "...",
+                enExcerpt: (post.excerpt?.rendered || "").replace(/<[^>]*>/g, "").substring(0, 150) + "...",
+                image: imageUrl,
                 link: "/news",
               };
             });
@@ -106,12 +112,13 @@ export default function Home() {
           }
         }
       } catch (err) {
-        // Fail silently
+        // Fail silently and use curated local content
       }
       
-      // Fallback path
-      setNews(contentService.getNews());
-      setNewsError(true);
+      // Fast fallback path with zero error banner
+      const localNews = contentService.getNews();
+      setNews(localNews && localNews.length > 0 ? localNews : fallbackData.news);
+      setNewsError(false);
       setNewsLoading(false);
     };
 
@@ -307,13 +314,7 @@ export default function Home() {
               <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>{t("news_api_loading")}</span>
             </div>
           ) : (
-            <>
-              {newsError && (
-                <div style={{ background: "rgba(212, 175, 55, 0.15)", border: "1px solid var(--accent)", borderRadius: "8px", padding: "12px 20px", marginBottom: "30px", fontSize: "0.9rem", color: "var(--primary-dark)", textAlign: "center" }}>
-                  ⚠️ {t("news_api_error")}
-                </div>
-              )}
-              <div className={styles.newsGrid}>
+            <div className={styles.newsGrid}>
                 {news.slice(0, 3).map((item) => (
                   <article key={item.id} className={`${styles.newsCard} card`}>
                     <div className={styles.newsImageWrapper}>
@@ -328,7 +329,6 @@ export default function Home() {
                   </article>
                 ))}
               </div>
-            </>
           )}
         </div>
       </section>

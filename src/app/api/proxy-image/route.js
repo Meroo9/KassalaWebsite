@@ -6,24 +6,30 @@ export async function GET(request) {
     const imageUrl = searchParams.get("url");
 
     if (!imageUrl) {
-      return new NextResponse("Missing url parameter", { status: 400 });
+      return NextResponse.redirect(new URL("/images/about-uni.png", request.url), 307);
     }
 
-    // Only proxy images from trusted domains
+    // Only proxy images from trusted university domains
     const allowedHosts = ["kassalauni.edu.sd"];
-    const parsedUrl = new URL(imageUrl);
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(imageUrl);
+    } catch {
+      return NextResponse.redirect(new URL("/images/about-uni.png", request.url), 307);
+    }
 
     if (!allowedHosts.includes(parsedUrl.hostname)) {
-      return new NextResponse("Domain not allowed", { status: 403 });
+      return NextResponse.redirect(new URL("/images/about-uni.png", request.url), 307);
     }
 
     const response = await fetch(imageUrl, {
-      signal: AbortSignal.timeout(5000),
-      next: { revalidate: 86400 } // Cache image for 24 hours
+      signal: AbortSignal.timeout(1500), // Fast 1.5s timeout to prevent UI freezes
+      next: { revalidate: 604800 } // Cache for 7 days
     });
 
     if (!response.ok) {
-      return new NextResponse("Image fetch failed", { status: response.status });
+      // Graceful fallback to authentic local university image
+      return NextResponse.redirect(new URL("/images/about-uni.png", request.url), 307);
     }
 
     const contentType = response.headers.get("content-type") || "image/jpeg";
@@ -33,13 +39,13 @@ export async function GET(request) {
       status: 200,
       headers: {
         "Content-Type": contentType,
-        "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+        "Cache-Control": "public, max-age=604800, s-maxage=604800, stale-while-revalidate=2592000",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, OPTIONS",
       },
     });
   } catch (error) {
-    console.error("Proxy image error:", error.message);
-    return new NextResponse("Internal server error", { status: 500 });
+    // Immediate graceful fallback on network timeout/failure
+    return NextResponse.redirect(new URL("/images/about-uni.png", request.url), 307);
   }
 }

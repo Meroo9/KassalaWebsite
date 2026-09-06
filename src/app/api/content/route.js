@@ -49,9 +49,9 @@ const DEFAULT_STORE = {
     ctaAr: "القبول والتسجيل",
     ctaEn: "Admissions",
     images: [
-      "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2019/10/DSC00314.jpg",
-      "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
-      "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg"
+      "/images/about-uni.png",
+      "/images/univercity.png",
+      "/images/med.jpeg"
     ]
   },
   kassala_custom_rector: {
@@ -61,7 +61,7 @@ const DEFAULT_STORE = {
     roleEn: "Rector of the University",
     speechAr: "مرحباً بكم في رحاب جامعة كسلا. نسعى جاهدين لتقديم بيئة تعليمية متميزة تواكب التحول الرقمي وتسهم في تمكين الطلاب والباحثين لتحقيق الريادة العلمية وخدمة التنمية المحلية والإقليمية.",
     speechEn: "Welcome to the University of Kassala. We strive to provide an outstanding educational environment that embraces digital transformation, enabling students and researchers to achieve leadership and support sustainable development.",
-    image: "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/730487604_1462071155961397_1557412588719809173_n-360x240.jpg"
+    image: "/images/about-uni.png"
   },
   kassala_custom_services: {
     students: [
