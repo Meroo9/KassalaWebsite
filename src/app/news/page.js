@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import fallbackData from "../../data/fallbackData.json";
+import { matchesSearch } from "../../utils/security";
 import styles from "./news.module.css";
 
 export default function News() {
@@ -12,6 +13,7 @@ export default function News() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [activePost, setActivePost] = useState(null);
+  const [newsSearchQuery, setNewsSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -67,6 +69,10 @@ export default function News() {
     fetchNews();
   }, [locale]);
 
+  const displayNews = newsSearchQuery.trim()
+    ? news.filter((n) => matchesSearch(`${n.arTitle} ${n.enTitle} ${n.arExcerpt} ${n.enExcerpt}`, newsSearchQuery))
+    : news;
+
   return (
     <div style={{ flex: 1 }}>
       {/* Page Banner */}
@@ -80,14 +86,60 @@ export default function News() {
       {/* News Grid */}
       <section className="section-padding" style={{ background: "#FFFFFF" }}>
         <div className="container">
+          
+          {/* Live News Search Bar */}
+          <div style={{ maxWidth: "600px", margin: "0 auto 35px", position: "relative" }}>
+            <input
+              type="text"
+              placeholder={locale === "ar" ? "ابحث في الأخبار والفعاليات الجامعية..." : "Search university news and events..."}
+              value={newsSearchQuery}
+              onChange={(e) => setNewsSearchQuery(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "14px 20px",
+                borderRadius: "30px",
+                border: "2px solid rgba(13, 92, 52, 0.2)",
+                fontSize: "0.95rem",
+                outline: "none",
+                background: "var(--platinum, #f8fbf9)",
+                boxShadow: "0 4px 15px rgba(0,0,0,0.03)"
+              }}
+            />
+            {newsSearchQuery && (
+              <button
+                onClick={() => setNewsSearchQuery("")}
+                style={{
+                  position: "absolute",
+                  left: locale === "ar" ? "15px" : "auto",
+                  right: locale === "ar" ? "auto" : "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "1.1rem",
+                  color: "#999"
+                }}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
           {loading ? (
             <div style={{ textAlign: "center", padding: "60px 0" }}>
               <div className={styles.spinner}></div>
               <p style={{ color: "var(--primary)", fontWeight: "600" }}>{t("news_api_loading")}</p>
             </div>
+          ) : displayNews.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "50px 20px", color: "var(--text-muted)" }}>
+              <p style={{ fontSize: "1.1rem" }}>
+                {locale === "ar" ? `لم يتم العثور على أخبار مطابقة لـ "${newsSearchQuery}"` : `No news found matching "${newsSearchQuery}"`}
+              </p>
+            </div>
           ) : (
             <div className={styles.newsGrid}>
-                {news.map((item) => (
+                {displayNews.map((item) => (
                   <article
                     key={item.id}
                     className={styles.newsCard}

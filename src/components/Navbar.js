@@ -124,8 +124,17 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Action Area (Lang + Drawer Toggle) */}
+          {/* Action Area (Search + Lang + Drawer Toggle) */}
           <div className={styles.actionArea} style={{ position: "relative" }}>
+            <Link
+              href="/services"
+              className={styles.langBtn}
+              style={{ padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px", textDecoration: "none" }}
+              aria-label="Search Portal"
+            >
+              🔍 <span>{locale === "ar" ? "بحث" : "Search"}</span>
+            </Link>
+
             <button onClick={toggleLocale} className={styles.langBtn} aria-label="Toggle Language">
               🌐 {locale === "ar" ? "English" : "العربية"}
             </button>

@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import { contentService } from "../../services/contentService";
+import { matchesSearch } from "../../utils/security";
 import styles from "./colleges.module.css";
 
 export default function Colleges() {
   const { locale, t } = useLanguage();
   const [filter, setFilter] = useState("all");
   const [colleges, setColleges] = useState([]);
+  const [collegeSearchQuery, setCollegeSearchQuery] = useState("");
 
   useEffect(() => {
     const updateColleges = () => setColleges(contentService.getColleges());
@@ -25,10 +27,11 @@ export default function Colleges() {
     { id: "humanities", labelKey: "colleges_filter_humanities" },
   ];
 
-  const filteredColleges =
-    filter === "all"
-      ? colleges
-      : colleges.filter((c) => c.category === filter);
+  const filteredColleges = colleges.filter((c) => {
+    const matchesCategory = filter === "all" || c.category === filter;
+    const matchesQuery = !collegeSearchQuery.trim() || matchesSearch(`${c.arName} ${c.enName} ${c.arDesc} ${c.enDesc}`, collegeSearchQuery);
+    return matchesCategory && matchesQuery;
+  });
 
   return (
     <div style={{ flex: 1 }}>
@@ -43,6 +46,46 @@ export default function Colleges() {
       {/* Filterable Colleges Grid */}
       <section className="section-padding" style={{ background: "transparent" }}>
         <div className="container">
+
+          {/* Live Search Bar for Colleges */}
+          <div style={{ maxWidth: "550px", margin: "0 auto 25px", position: "relative" }}>
+            <input
+              type="text"
+              placeholder={locale === "ar" ? "ابحث عن كلية أو تخصص (حاسوب، طب، هندسة، تربية...)" : "Search college or major (Computer, Medicine, Engineering...)"}
+              value={collegeSearchQuery}
+              onChange={(e) => setCollegeSearchQuery(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "12px 20px",
+                borderRadius: "25px",
+                border: "2px solid rgba(13, 92, 52, 0.2)",
+                fontSize: "0.95rem",
+                outline: "none",
+                background: "var(--platinum, #f8fbf9)",
+                boxShadow: "0 4px 15px rgba(0,0,0,0.03)"
+              }}
+            />
+            {collegeSearchQuery && (
+              <button
+                onClick={() => setCollegeSearchQuery("")}
+                style={{
+                  position: "absolute",
+                  left: locale === "ar" ? "15px" : "auto",
+                  right: locale === "ar" ? "auto" : "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "1.1rem",
+                  color: "#999"
+                }}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
           {/* Category Filter Buttons */}
           <div className={styles.filterContainer}>
             {categories.map((cat) => (

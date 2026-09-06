@@ -1,4 +1,5 @@
 import fallbackData from "../data/fallbackData.json";
+import { matchesSearch } from "../utils/security";
 
 // LocalStorage Keys
 const KEYS = {
@@ -518,8 +519,8 @@ export const contentService = {
   // Global Site Search across Services, Colleges, News, and Research
   // ----------------------------------------------------
   searchSite(query) {
-    if (!query || !query.trim()) return { services: [], colleges: [], news: [], research: [] };
-    const q = query.trim().toLowerCase();
+    if (!query || !query.trim()) return { services: [], colleges: [], news: [], research: [], customPages: [], totalMatches: 0 };
+    const q = query.trim();
 
     // 1. Services
     const allServices = [
@@ -530,28 +531,25 @@ export const contentService = {
     ];
     const uniqueServices = Array.from(new Map(allServices.map(s => [s.id, s])).values());
     const matchedServices = uniqueServices.filter(s => {
-      const title = (s.arTitle || "") + " " + (s.enTitle || "");
-      const desc = (s.arDesc || "") + " " + (s.enDesc || "");
-      return title.toLowerCase().includes(q) || desc.toLowerCase().includes(q);
+      const text = `${s.arTitle || ""} ${s.enTitle || ""} ${s.arDesc || ""} ${s.enDesc || ""}`;
+      return matchesSearch(text, q);
     });
 
     // 2. Colleges
     const colleges = this.getColleges("all");
     const matchedColleges = colleges.filter(c => {
-      const name = (c.arName || "") + " " + (c.enName || "");
-      const desc = (c.arDesc || "") + " " + (c.enDesc || "");
-      return name.toLowerCase().includes(q) || desc.toLowerCase().includes(q);
+      const text = `${c.arName || ""} ${c.enName || ""} ${c.arDesc || ""} ${c.enDesc || ""} ${c.category || ""}`;
+      return matchesSearch(text, q);
     });
 
     // 3. News
     const news = this.getNews();
     const matchedNews = news.filter(n => {
-      const title = (n.arTitle || "") + " " + (n.enTitle || "");
-      const excerpt = (n.arExcerpt || "") + " " + (n.enExcerpt || "");
-      return title.toLowerCase().includes(q) || excerpt.toLowerCase().includes(q);
+      const text = `${n.arTitle || ""} ${n.enTitle || ""} ${n.arExcerpt || ""} ${n.enExcerpt || ""}`;
+      return matchesSearch(text, q);
     });
 
-    // 4. Research (Al-Qalzam Issues)
+    // 4. Research (Al-Qalzam Issues + Academic Papers)
     const qalzamIssues = [
       { num: 1, arName: "مجلة القلزم", enName: "Al-Qalzam Journal", arSub: "العدد 1 - العلوم الإنسانية", enSub: "Issue 1 - Humanities", link: "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Islamia.pdf" },
       { num: 2, arName: "مجلة القلزم", enName: "Al-Qalzam Journal", arSub: "العدد 2 - الدراسات التربوية", enSub: "Issue 2 - Educational Studies", link: "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Tarbia.pdf" },
@@ -564,16 +562,41 @@ export const contentService = {
       { num: 9, arName: "مجلة القلزم", enName: "Al-Qalzam Journal", arSub: "العدد 9 - أبحاث التنمية المستدامة", enSub: "Issue 9 - Sustainable Dev", link: "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Islamia.pdf" },
       { num: 10, arName: "مجلة القلزم", enName: "Al-Qalzam Journal", arSub: "العدد 10 - المجلد الخاص بالابتكار", enSub: "Issue 10 - Innovation Special", link: "https://kassalauni.edu.sd/nw/wp-content/uploads/2021/06/Tarbia.pdf" }
     ];
-    const matchedResearch = qalzamIssues.filter(r => {
-      const text = (r.arSub + " " + r.enSub + " " + r.arName).toLowerCase();
-      return text.includes(q);
+    const researchData = this.getResearchData();
+    const papers = researchData.papers || [];
+    const allResearch = [
+      ...qalzamIssues.map(qItem => ({ ...qItem, type: "qalzam" })),
+      ...papers.map(p => ({
+        num: p.id,
+        arSub: p.arTitle,
+        enSub: p.enTitle,
+        arName: p.authors || "بحث أكاديمي محكم",
+        enName: p.authors || "Peer-reviewed Paper",
+        link: p.link || "#",
+        type: "paper"
+      }))
+    ];
+    const matchedResearch = allResearch.filter(r => {
+      const text = `${r.arSub || ""} ${r.enSub || ""} ${r.arName || ""} ${r.enName || ""}`;
+      return matchesSearch(text, q);
     });
+
+    // 5. Custom Dynamic Pages & Events
+    const customPages = this.getCustomPages(false);
+    const matchedPages = customPages.filter(p => {
+      const text = `${p.arTitle || ""} ${p.enTitle || ""} ${p.arSubtitle || ""} ${p.enSubtitle || ""} ${p.arContent || ""}`;
+      return matchesSearch(text, q);
+    });
+
+    const totalMatches = matchedServices.length + matchedColleges.length + matchedNews.length + matchedResearch.length + matchedPages.length;
 
     return {
       services: matchedServices,
       colleges: matchedColleges,
       news: matchedNews,
-      research: matchedResearch
+      research: matchedResearch,
+      customPages: matchedPages,
+      totalMatches
     };
   },
 
