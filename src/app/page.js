@@ -337,7 +337,7 @@ export default function Home() {
       <section className={`${styles.collegesSection} section-padding`}>
         <div className="container">
           <div className="section-header">
-            <h2>{locale === "ar" ? "كليات متميزة" : "Featured Colleges"}</h2>
+            <h2>{locale === "ar" ? "بعض الكليات" : "Featured Colleges"}</h2>
             <p>{t("colleges_subtitle")}</p>
           </div>
           
