@@ -41,5 +41,29 @@
 5. **التحقق والاختبار**:
    - نجاح البناء الإنتاجي `npm run build` بنسبة 100%.
 
+
+---
+
+# توثيق حل مشكلة فشل نشر Vercel (Vercel Production Deployment Build Fix)
+
+## 1. شرح المشكلة بالتفصيل
+فشل النشر التلقائي على Vercel عند الـ commit `a877f12` مع رسالة خطأ:
+`The production deployment for project kassala-website failed on branch main at commit a877f12. Build error`.
+
+## 2. سبب الحدوث
+1. أثناء خطوة الفحص والتدقيق (`eslint`) على خوادم Vercel CI/CD، اعترضت قاعدة `react-hooks/set-state-in-effect` في ملف [src/app/services/page.js](file:///d:/KassalaWebsite/KassalaWebsite/src/app/services/page.js) على استدعاء `setSearchInput(rawQuery)` بشكل متزامن ومباشر داخل `useEffect`.
+2. عدم استثناء مجلد `.netlify` القديم من `eslint.config.mjs` مما سبب ظهور أخطاء تعريفات للقواعد غير المستخدمة في بيئات الـ CI.
+
+## 3. خطوات الحل
+1. **تصحيح مزامنة الـ State**:
+   - إزالة `setSearchInput` المتزامن من `useEffect` في [src/app/services/page.js](file:///d:/KassalaWebsite/KassalaWebsite/src/app/services/page.js).
+   - استخدام نمط المزامنة المباشرة أثناء الريندر `if (rawQuery !== prevRawQuery)`.
+2. **تحديث إعدادات ESLint**:
+   - إضافة `.netlify/**` إلى مصفوفة `globalIgnores` في [eslint.config.mjs](file:///d:/KassalaWebsite/KassalaWebsite/eslint.config.mjs).
+3. **التحقق والتأكيد**:
+   - تشغيل `npx eslint` وانتهائه بنجاح بنتيجة 0 أخطاء (Code 0).
+   - تشغيل `npm run build` بنجاح واجتياز جميع الـ 16 مساراً.
+
 ## 4. الدروس المستفادة
-- في المواقع الموجهة للمستخدمين باللغة العربية، يجب دائماً استخدام محركات تطبيع الحروف (Arabic Text Normalization) والبحث بالكلمات المفتاحية (Tokenized Matching)، لتفادي ضياع النتائج بسبب الاختلافات الإملائية الشائعة كهمزات الوصل والقطع والتاء المربوطة.
+- تجنب `setState` المتزامن تماماً داخل `useEffect` للالتزام الصارم بمعايير React 19 وNext.js 16.
+- التأكد دائماً من تشغيل `npx eslint` محلياً بالتوازي مع `npm run build` قبل الدفع لمستودع الإنتاج.

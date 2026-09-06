@@ -20,10 +20,12 @@ function ServicesContent() {
   const [searchInput, setSearchInput] = useState(rawQuery);
   const query = cleanSearchQuery(rawQuery);
 
-  // Sync search input if query param changes in URL
-  useEffect(() => {
+  // Sync search input with rawQuery when it updates
+  const [prevRawQuery, setPrevRawQuery] = useState(rawQuery);
+  if (rawQuery !== prevRawQuery) {
+    setPrevRawQuery(rawQuery);
     setSearchInput(rawQuery);
-  }, [rawQuery]);
+  }
 
   // Tab state for non-search mode
   const getInitialTab = () => {
