@@ -12,10 +12,10 @@ export default function Colleges() {
   const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setColleges(contentService.getColleges());
-    }, 0);
-    return () => clearTimeout(timer);
+    const updateColleges = () => setColleges(contentService.getColleges());
+    updateColleges();
+    window.addEventListener("storage", updateColleges);
+    return () => window.removeEventListener("storage", updateColleges);
   }, []);
 
   const categories = [

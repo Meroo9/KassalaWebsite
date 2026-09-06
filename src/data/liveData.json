@@ -1,0 +1,39 @@
+{
+  "kassala_theme_config": {
+    "primaryColor": "#0d5c34",
+    "primaryDark": "#053b1e",
+    "accentColor": "#d4af37",
+    "fontFamily": "Helvetica",
+    "glowOrbs": true,
+    "cardGlow": true
+  },
+  "kassala_custom_hero": {
+    "titleAr": "جامعة كسلا",
+    "titleEn": "University of Kassala",
+    "subtitleAr": "منارة المعرفة، البحث العلمي والتنمية المستدامة في شرق السودان",
+    "subtitleEn": "Beacon of Knowledge, Scientific Research and Sustainable Development in Eastern Sudan",
+    "ctaAr": "القبول والتسجيل",
+    "ctaEn": "Admissions",
+    "images": [
+      "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2019/10/DSC00314.jpg",
+      "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/731674235_2787464318293126_3654465864040771624_n-1024x768.jpg",
+      "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/733095703_2245592242882652_6549622429077855227_n-1024x768.jpg"
+    ]
+  },
+  "kassala_custom_rector": {
+    "nameAr": "أ.د. أماني عبدالمعروف بشير",
+    "nameEn": "Prof. Amani Abdelmarouf Bashir",
+    "roleAr": "مديرة الجامعة",
+    "roleEn": "Rector of the University",
+    "speechAr": "مرحباً بكم في رحاب جامعة كسلا. نسعى جاهدين لتقديم بيئة تعليمية متميزة تواكب التحول الرقمي وتسهم في تمكين الطلاب والباحثين لتحقيق الريادة العلمية وخدمة التنمية المحلية والإقليمية.",
+    "speechEn": "Welcome to the University of Kassala. We strive to provide an outstanding educational environment that embraces digital transformation, enabling students and researchers to achieve leadership and support sustainable development.",
+    "image": "/api/proxy-image?url=https://kassalauni.edu.sd/nw/wp-content/uploads/2026/07/730487604_1462071155961397_1557412588719809173_n-360x240.jpg"
+  },
+  "kassala_custom_contact": {
+    "addressAr": "رئاسة الجامعة، مدينة كسلا، ولاية كسلا، السودان",
+    "addressEn": "University Presidency, Kassala City, Kassala State, Sudan",
+    "phone": "+249822075",
+    "email": "info@kassalauni.edu.sd",
+    "mapsUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.540139989069!2d36.39801861517726!3d15.457813989260177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x166ef58100000001%3A0xe103ee660f54070a!2sUniversity%20of%20Kassala!5e0!3m2!1sen!2ssd!4v1650000000000!5m2!1sen!2ssd"
+  }
+}

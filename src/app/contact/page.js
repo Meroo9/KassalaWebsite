@@ -24,10 +24,10 @@ export default function Contact() {
   const [contact, setContact] = useState(() => contentService.getContactSettings());
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setContact(contentService.getContactSettings());
-    }, 0);
-    return () => clearTimeout(timer);
+    const updateContact = () => setContact(contentService.getContactSettings());
+    updateContact();
+    window.addEventListener("storage", updateContact);
+    return () => window.removeEventListener("storage", updateContact);
   }, []);
 
   const handleInputChange = (e) => {

@@ -36,13 +36,15 @@ export default function Home() {
 
   // Load CMS settings dynamically on mount
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const updateAll = () => {
       setHero(contentService.getHeroSettings());
       setRector(contentService.getRectorSettings());
       setFeaturedColleges(contentService.getColleges().slice(0, 3));
       setServices(contentService.getServices("students"));
-    }, 0);
-    return () => clearTimeout(timer);
+    };
+    updateAll();
+    window.addEventListener("storage", updateAll);
+    return () => window.removeEventListener("storage", updateAll);
   }, []);
 
   const sliderData = [

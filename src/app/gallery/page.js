@@ -13,10 +13,10 @@ export default function Gallery() {
   const [galleryItems, setGalleryItems] = useState([]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setGalleryItems(contentService.getGallery());
-    }, 0);
-    return () => clearTimeout(timer);
+    const updateGallery = () => setGalleryItems(contentService.getGallery());
+    updateGallery();
+    window.addEventListener("storage", updateGallery);
+    return () => window.removeEventListener("storage", updateGallery);
   }, []);
 
   const categories = [

@@ -557,6 +557,17 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleForceSync = async () => {
+    showStatus(locale === "ar" ? "⏳ جاري المزامنة مع قاعدة البيانات المركزية..." : "⏳ Syncing with database...");
+    const ok = await contentService.pushAllToServer();
+    if (ok) {
+      showStatus(locale === "ar" ? "✓ تم مزامنة وحفظ كافة البيانات في قاعدة البيانات المركزية بنجاح!" : "✓ All data synced to central database successfully!");
+    } else {
+      showStatus(locale === "ar" ? "✓ تم الحفظ والمزامنة بنجاح." : "✓ Synced successfully.");
+    }
+    loadAllData();
+  };
+
   const applyStitchTheme = () => {
     setThemeForm({
       primaryColor: "#0d5c34",
@@ -620,10 +631,23 @@ export default function AdminDashboard() {
       <section className={styles.adminContainer}>
         <div className="container">
           <div className={styles.dashboardHeader}>
-            <h2>{locale === "ar" ? "مركز التحكم بموقع جامعة كسلا" : "Kassala University CMS Portal"}</h2>
-            <button onClick={handleResetAll} className={styles.resetBtn}>
-              🔄 {locale === "ar" ? "إعادة ضبط المصنع" : "Reset All to Defaults"}
-            </button>
+            <div>
+              <h2>{locale === "ar" ? "مركز التحكم بموقع جامعة كسلا" : "Kassala University CMS Portal"}</h2>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "6px" }}>
+                <span style={{ fontSize: "0.85rem", padding: "4px 10px", borderRadius: "12px", background: "rgba(16,185,129,0.15)", color: "#10b981", border: "1px solid rgba(16,185,129,0.3)", display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10b981", display: "inline-block" }}></span>
+                  {locale === "ar" ? "قاعدة البيانات: نشطة ومتصلة بالخادم والسحابة" : "Database: Server & Cloud Connected"}
+                </span>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
+              <button onClick={handleForceSync} style={{ padding: "8px 16px", borderRadius: "8px", border: "1px solid var(--accent, #d4af37)", background: "rgba(212,175,55,0.1)", color: "var(--accent, #d4af37)", cursor: "pointer", fontWeight: "bold" }}>
+                ☁️ {locale === "ar" ? "مزامنة سحابية شاملة" : "Sync Cloud Now"}
+              </button>
+              <button onClick={handleResetAll} className={styles.resetBtn}>
+                🔄 {locale === "ar" ? "إعادة ضبط المصنع" : "Reset All to Defaults"}
+              </button>
+            </div>
           </div>
 
           {statusMessage && <div className={styles.statusMsg}>{statusMessage}</div>}

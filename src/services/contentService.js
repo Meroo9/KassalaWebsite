@@ -16,6 +16,9 @@ const KEYS = {
 
 const isClient = typeof window !== "undefined";
 
+let isSyncing = false;
+let hasSynced = false;
+
 /**
  * Load safe JSON data from localStorage on client, or return default
  */
@@ -31,12 +34,22 @@ function loadData(key, defaultValue) {
 }
 
 /**
- * Save data to localStorage on client
+ * Save data to localStorage on client AND persist to centralized server/cloud database
  */
 function saveData(key, value) {
   if (!isClient) return false;
   try {
     localStorage.setItem(key, JSON.stringify(value));
+    
+    // Proactively persist to server database / Cloud KV
+    fetch("/api/content", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, value })
+    })
+      .then(res => res.json())
+      .catch(err => console.warn("Central database background sync warning:", err.message));
+
     return true;
   } catch (e) {
     console.error(`Error saving key ${key}`, e);
@@ -44,7 +57,100 @@ function saveData(key, value) {
   }
 }
 
+/**
+ * Sync all keys from central server database to client cache
+ */
+async function syncWithServer() {
+  if (!isClient || isSyncing) return false;
+  isSyncing = true;
+  try {
+    const res = await fetch("/api/content", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (json && json.data) {
+      let updatedAny = false;
+      Object.keys(KEYS).forEach((k) => {
+        const keyName = KEYS[k];
+        if (json.data[keyName] !== undefined && json.data[keyName] !== null) {
+          const current = localStorage.getItem(keyName);
+          const serverStr = JSON.stringify(json.data[keyName]);
+          if (current !== serverStr) {
+            localStorage.setItem(keyName, serverStr);
+            updatedAny = true;
+          }
+        }
+      });
+      hasSynced = true;
+      if (updatedAny) {
+        window.dispatchEvent(new Event("storage"));
+      }
+      return { success: true, storage: json.storage };
+    }
+    return false;
+  } catch (e) {
+    console.warn("Could not sync with central database, using local cache:", e.message);
+    return false;
+  } finally {
+    isSyncing = false;
+  }
+}
+
+// Auto-trigger sync on client startup
+if (isClient) {
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    setTimeout(syncWithServer, 50);
+  } else {
+    window.addEventListener("DOMContentLoaded", () => setTimeout(syncWithServer, 50));
+  }
+}
+
 export const contentService = {
+  // ----------------------------------------------------
+  // Database Synchronization & Connectivity Methods
+  // ----------------------------------------------------
+  async syncDatabase() {
+    return await syncWithServer();
+  },
+
+  async checkServerDbStatus() {
+    if (!isClient) return { status: "server_side" };
+    try {
+      const res = await fetch("/api/content", { cache: "no-store" });
+      if (!res.ok) return { status: "offline", error: res.statusText };
+      const data = await res.json();
+      return { status: "online", storage: data.storage, timestamp: data.timestamp };
+    } catch (err) {
+      return { status: "offline", error: err.message };
+    }
+  },
+
+  async pushAllToServer() {
+    if (!isClient) return false;
+    try {
+      const allData = {};
+      Object.keys(KEYS).forEach(k => {
+        const keyName = KEYS[k];
+        const val = localStorage.getItem(keyName);
+        if (val) {
+          try {
+            allData[keyName] = JSON.parse(val);
+          } catch {
+            allData[keyName] = val;
+          }
+        }
+      });
+      const res = await fetch("/api/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ allData })
+      });
+      return res.ok;
+    } catch (err) {
+      console.error("Failed to push all data to server:", err);
+      return false;
+    }
+  },
+
   // ----------------------------------------------------
   // 1. Theme and Appearance Settings
   // ----------------------------------------------------
@@ -63,7 +169,6 @@ export const contentService = {
   saveThemeSettings(settings) {
     const success = saveData(KEYS.THEME, settings);
     if (success && isClient) {
-      // Dispatch storage event to notify other tabs/components
       window.dispatchEvent(new Event("storage"));
     }
     return success;
@@ -140,7 +245,6 @@ export const contentService = {
       ]
     };
 
-    // Initialize with defaults on first check so default items are fully editable
     if (isClient && !localStorage.getItem(KEYS.SERVICES)) {
       saveData(KEYS.SERVICES, defaultServices);
     }
@@ -189,7 +293,6 @@ export const contentService = {
     }
 
     const colleges = loadData(KEYS.COLLEGES, defaultColleges);
-    // Sync images from defaultColleges to ensure updated local images display
     const syncedColleges = colleges.map(col => {
       const matched = defaultColleges.find(d => d.id === col.id);
       return matched ? { ...col, image: matched.image } : col;
@@ -227,7 +330,7 @@ export const contentService = {
   getResearchData() {
     const defaultResearch = {
       journals: [
-        { id: "qalzam", arTitle: "مجلة القلزم للدراسات الإسلامية والتربوية", enTitle: "Al-Qalzam Journal for Islamic & Educational Studies", arDesc: "مجلة علمية محكمة رائدة تصدر عن مركز دراسات السلام والتنمية بالجامعة تعنى بنشر البحوث المبتكرة.", enDesc: "A leading peer-reviewed journal publishing innovative research in Islamic and educational fields.", link: "https://kassalauni.edu.sd/nw/%d9%85%d8%ac%d9%84%d8%a9-%d8%a7%d9%84%d9%8ق%d9%84%d8%b2%d9%85/" },
+        { id: "qalzam", arTitle: "مجلة القلزم للدراسات الإسلامية والتربوية", enTitle: "Al-Qalzam Journal for Islamic & Educational Studies", arDesc: "مجلة علمية محكمة رائدة تصدر عن مركز دراسات السلام والتنمية بالجامعة تعنى بنشر البحوث المبتكرة.", enDesc: "A leading peer-reviewed journal publishing innovative research in Islamic and educational fields.", link: "https://kassalauni.edu.sd/nw/%d9%85%d8%ac%d9%84%d8%a9-%d8%a7%d9%84%d9%82%d9%84%d8%b2%d9%85/" },
         { id: "scientific", arTitle: "المجلة العلمية لجامعة كسلا (OJS)", enTitle: "Kassala University Scientific Journal (OJS)", arDesc: "المستودع الرقمي ونظام إدارة المجلات العلمية المحكمة للعلوم الطبية والهندسة والزراعة.", enDesc: "Digital repository and management system for medicine, engineering, and agricultural journals.", link: "http://kassalauni.edu.sd/nw/kassalaojs" }
       ],
       papers: [
